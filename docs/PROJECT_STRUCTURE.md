@@ -9,6 +9,7 @@
 | `frontend/` | Next.js 浏览器应用，独立安装和构建 | 是 |
 | `backend/` | FastAPI 服务，独立安装、测试和运行 | 是 |
 | `docs/` | 架构、迁移和学习说明 | 是 |
+| `compose.yaml` | 本地 MongoDB replica set 与持久化卷配置 | 是 |
 | `.editorconfig` | 统一编辑器的换行、缩进等基础格式 | 是 |
 | `.gitignore` | 排除依赖、缓存、密钥和构建产物 | 是 |
 | `README.md` | 项目身份、快速开始和总任务清单 | 是 |

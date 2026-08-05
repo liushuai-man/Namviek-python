@@ -37,6 +37,13 @@ namviek-python/
 
 ## 本地运行
 
+先启动 MongoDB：
+
+```powershell
+docker compose up -d mongodb mongodb-init
+docker compose ps
+```
+
 后端：
 
 ```powershell
@@ -72,7 +79,7 @@ yarn dev
 
 ### 2. MongoDB
 
-- [ ] 使用 Docker Compose 启动 MongoDB replica set
+- [x] 使用 Docker Compose 启动本地 MongoDB replica set
 - [ ] 用 PyMongo `AsyncMongoClient` 管理连接生命周期
 - [ ] 配置环境变量、启动检查和连接关闭
 - [ ] 学习 document、collection、ObjectId 和 BSON 类型

@@ -1,0 +1,62 @@
+name: namviek-python
+
+services:
+  mongodb:
+    image: mongo:8.0.28-noble
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongosh --quiet --eval \"try { quit(rs.status().ok ? 0 : 1) } catch (error) { quit(1) }\"",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  mongodb-init:
+    image: mongo:8.0.28-noble
+    restart: "no"
+    depends_on:
+      mongodb:
+        condition: service_started
+    entrypoint: ["mongosh"]
+    command:
+      - "mongodb://mongodb:27017/admin"
+      - "--quiet"
+      - "--eval"
+      - >-
+        let connected = false;
+        for (let attempt = 0; attempt < 30; attempt++) {
+          try {
+            db.adminCommand({ ping: 1 });
+            connected = true;
+            break;
+          } catch (error) {
+            sleep(1000);
+          }
+        }
+        if (!connected) {
+          throw new Error('MongoDB did not become ready in time');
+        }
+        try {
+          rs.status();
+          print('Replica set already initialized');
+        } catch (error) {
+          rs.initiate({
+            _id: 'rs0',
+            members: [{ _id: 0, host: 'localhost:27017' }]
+          });
+          print('Replica set initialized');
+        }
+
+volumes:
+  mongodb_data:
+    name: namviek_python_mongodb_data
+
