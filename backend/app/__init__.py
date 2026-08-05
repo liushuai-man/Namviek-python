@@ -1,0 +1,2 @@
+"""Namviek FastAPI application package."""
+

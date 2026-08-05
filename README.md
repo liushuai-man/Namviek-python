@@ -1,92 +1,88 @@
 # Namviek Python Rebuild Demo
 
 > [!IMPORTANT]
-> 这是一个用于学习 Python 后端开发的**非官方重构 Demo**，不是原创项目，也不是 Namviek 官方发行版。
+> 这是一个用于学习 Python 后端开发的非官方重构 Demo，不是原创项目，也不是 Namviek 官方发行版。
 
-本项目基于开源项目 [Namviek](https://github.com/hudy9x/namviek) 进行学习和改造。Namviek 及原有前端、后端代码的设计与实现成果归原项目作者及贡献者所有，感谢他们公开源代码，让学习者能够研究真实项目的工程实践。
+本项目基于开源项目 [hudy9x/namviek](https://github.com/hudy9x/namviek) 改造。Namviek 原有设计和代码成果归原作者及贡献者所有，感谢他们开放源代码供社区学习。本仓库保留 [GNU GPL v3.0](./LICENSE)，修改版本不会冒充上游官方版本。
 
-本仓库的目标是保留 Namviek 前端的主要功能和 API 契约，逐步使用 **Python、FastAPI 和 MongoDB** 重写原 Node.js/Express 后端。它用于个人学习、技术实验和重构演示，不应被描述为独立原创产品。
+## 项目目标
 
-## 上游项目与许可
+- 保留 Namviek 的 Next.js 前端，移除旧 Node.js 后端。
+- 使用 Python、FastAPI 和 MongoDB 渐进式重写 API。
+- 前后端只通过 HTTP、JSON 和 OpenAPI 契约交互。
+- 在真实重构中学习 Python、异步编程、MongoDB 和自动化测试。
 
-- 上游项目：[hudy9x/namviek](https://github.com/hudy9x/namviek)
-- 原项目作者：[hudy9x](https://github.com/hudy9x) 及 Namviek contributors
-- 本仓库保留的许可证：[GNU General Public License v3.0](./LICENSE)
-- 对上游代码所做的修改会在 Git 历史和本文档中标明
-
-如果你分发本项目或修改后的版本，请同时遵守仓库内 `LICENSE` 的要求，并保留上游项目和作者信息。
-
-## 重构目标
-
-1. 将现有前端与后端解耦，使二者能够独立安装、开发、测试和部署。
-2. 使用 FastAPI 重写 Express API，同时尽量保持前端 API 契约稳定。
-3. 保留 MongoDB，在真实业务中学习文档建模、ObjectId、索引、聚合和事务。
-4. 建立 Python 项目的类型检查、代码规范、自动化测试、数据库迁移和部署流程。
-5. 以小步迁移的方式完成重构，确保每个阶段都有可以运行和验证的结果。
-
-## 目标技术栈
-
-| 领域 | 技术 |
-| --- | --- |
-| 前端 | Next.js、React、TypeScript、Tailwind CSS |
-| Web API | Python 3.12+、FastAPI、Pydantic |
-| 数据库 | MongoDB、PyMongo（异步 API） |
-| 缓存与队列 | Redis，任务队列方案将在迁移调度功能时确定 |
-| 测试 | pytest、pytest-asyncio、HTTPX |
-| 质量工具 | Ruff、mypy |
-| 环境与依赖 | uv |
-| 构建部署 | Docker、Docker Compose |
-
-## 目标目录结构
+## 当前结构
 
 ```text
 namviek-python/
-├── frontend/             # 从原项目整理出的 Next.js 前端
-├── backend/              # 新 FastAPI 应用
-│   ├── app/
-│   │   ├── api/          # 路由层
-│   │   ├── core/         # 配置、安全、异常处理
-│   │   ├── db/           # MongoDB 连接、索引和数据访问
-│   │   ├── models/       # 数据库存储模型
-│   │   ├── schemas/      # API 输入输出模型
-│   │   └── services/     # 业务逻辑
-│   └── tests/
-├── deploy/               # 容器及部署配置
-└── docs/                 # 重构记录和学习笔记
+├── frontend/              # 独立 Next.js 前端
+│   ├── app/               # App Router 页面与功能
+│   ├── packages/          # 前端仍在使用的上游共享代码
+│   ├── public/            # 静态资源
+│   ├── package.json       # 前端依赖和命令
+│   └── yarn.lock          # 前端依赖锁文件
+├── backend/               # 独立 FastAPI 后端
+│   ├── app/               # Python 应用代码
+│   ├── tests/             # Python 自动化测试
+│   ├── pyproject.toml     # Python 依赖和工具配置
+│   └── uv.lock            # Python 依赖锁文件
+├── docs/
+│   └── PROJECT_STRUCTURE.md
+├── LICENSE
+└── README.md
 ```
 
-目录迁移会分阶段进行。在新的 FastAPI 接口能够运行以前，原目录会暂时保留，避免一次性移动大量文件导致项目无法验证。
+完整文件职责见 [项目结构说明](./docs/PROJECT_STRUCTURE.md)。旧 Node.js 后端保存在远程 Git 的 `backend/node` 分支中，主分支不再保留重复实现。
+
+## 本地运行
+
+后端：
+
+```powershell
+cd backend
+uv sync
+uv run fastapi dev app/main.py
+```
+
+前端：
+
+```powershell
+cd frontend
+yarn install
+yarn dev
+```
+
+- 前端：<http://localhost:3000>
+- 后端健康检查：<http://localhost:8000/api/v1/health>
+- OpenAPI 文档：<http://localhost:8000/docs>
 
 ## 重构任务清单
 
-### 阶段 0：建立安全基线
+### 1. 工程基线
 
-- [x] 标明项目是基于 Namviek 的非官方学习重构 Demo
-- [x] 修改网页标题和项目包名
-- [x] 保留许可证和上游作者信息
-- [ ] 记录现有前端使用的 API、鉴权方式和响应格式
-- [ ] 验证原前端可以独立构建
+- [x] 标注上游项目、原作者和非官方 Demo 身份
+- [x] 保存旧 Node.js 实现到 `node` 分支
+- [x] 拆分独立的 `frontend/` 与 `backend/`
+- [x] 移除 Nx、旧 Node 后端和旧部署配置
+- [x] 初始化 FastAPI、Ruff、mypy 和 pytest
+- [x] 实现 `/api/v1/health`
+- [ ] 清理前端只在旧 Node 后端使用的 npm 依赖
+- [ ] 用 API DTO 替换前端对 `@prisma/client` 类型的依赖
 
-### 阶段 1：初始化 FastAPI 后端
-
-- [ ] 创建 `backend` Python 工程和 `pyproject.toml`
-- [ ] 配置开发、测试和生产环境变量
-- [ ] 实现应用工厂、版本化路由和 `/health` 健康检查
-- [ ] 配置统一响应、异常处理、日志和 CORS
-- [ ] 配置 Ruff、mypy 和 pytest
-
-### 阶段 2：学习并接入 MongoDB
+### 2. MongoDB
 
 - [ ] 使用 Docker Compose 启动 MongoDB replica set
-- [ ] 使用 PyMongo 异步 API 管理连接生命周期
-- [ ] 理解 database、collection、document 和 ObjectId
-- [ ] 为核心查询设计唯一索引和复合索引
-- [ ] 编写数据库测试和测试数据夹具
-- [ ] 研究原 Prisma 模型并形成 Python/MongoDB 映射文档
+- [ ] 用 PyMongo `AsyncMongoClient` 管理连接生命周期
+- [ ] 配置环境变量、启动检查和连接关闭
+- [ ] 学习 document、collection、ObjectId 和 BSON 类型
+- [ ] 为核心查询设计唯一索引与复合索引
+- [ ] 编写 MongoDB 集成测试和测试数据夹具
+- [ ] 整理旧 Prisma schema 到 Python/MongoDB 模型的映射
 
-### 阶段 3：按业务模块迁移 API
+### 3. API 迁移
 
-- [ ] 鉴权：注册、登录、刷新令牌、密码重置
+- [ ] 鉴权：注册、登录、刷新令牌和密码重置
 - [ ] 用户与个人资料
 - [ ] 组织、邀请、成员和权限
 - [ ] 项目、视图、状态和自定义字段
@@ -94,38 +90,27 @@ namviek-python/
 - [ ] 评论、活动记录、收藏和通知
 - [ ] 文件存储、自动化、定时任务和报表
 
-每迁移一个模块，都要完成接口契约核对、单元测试、API 集成测试和前端联调，再移除对应的旧后端实现。
+每个模块都应完成 Pydantic schema、业务实现、自动化测试、OpenAPI 契约和前端联调。
 
-### 阶段 4：前后端彻底分离
+### 4. 前端契约与测试
 
-- [ ] 将前端整理到独立目录和依赖清单
-- [ ] 移除前端对旧 Nx 后端包的隐式依赖
-- [ ] 通过环境变量配置 API 地址
-- [ ] 生成并维护 OpenAPI 文档
-- [ ] 完成主要用户流程的端到端测试
-- [ ] 删除已经被替代的 Node.js 后端和无用构建配置
+- [ ] 从 FastAPI OpenAPI 文档生成 TypeScript API 类型
+- [ ] 移除全部 Prisma Client 前端类型
+- [ ] 为主要组件补充单元测试
+- [ ] 重新建立 Playwright 或 Cypress E2E 工程
+- [ ] 覆盖登录、创建组织、创建项目和任务等主要用户流程
 
-### 阶段 5：构建与部署
+原 `frontend-e2e` 只有 Nx/Cypress 示例骨架，已从主分支移除。正式 E2E 会在 API 基本稳定后重建，避免维护无效测试配置。
 
-- [ ] 创建前端、API 和后台任务的生产镜像
-- [ ] 编写生产用 Compose 配置和健康检查
-- [ ] 配置 MongoDB 数据卷、备份与恢复方案
+### 5. 构建与部署
+
+- [ ] 创建前端、API 和后台任务生产镜像
+- [ ] 编写开发与生产 Compose 配置
+- [ ] 配置 MongoDB 数据卷、备份和恢复
 - [ ] 配置密钥、HTTPS、反向代理和 CORS 白名单
-- [ ] 添加 CI：检查、测试和镜像构建
+- [ ] 添加 CI：格式检查、类型检查、测试和镜像构建
 - [ ] 编写部署、升级、回滚和故障排查文档
 
-## 学习方式
+## 学习节奏
 
-重构采用“小步闭环”：先阅读一个原接口，再设计 Pydantic schema，随后实现 FastAPI 路由和 MongoDB 操作，最后通过测试及前端联调验证。每一步都会说明相关 Python 知识，例如：
-
-- 类型注解、数据类与 Pydantic 模型的区别
-- `async`/`await` 与异步数据库访问
-- FastAPI 依赖注入
-- Python 模块、包和分层设计
-- MongoDB 文档建模、索引、聚合管道和事务
-- pytest fixture、mock 与集成测试
-
-## 当前状态
-
-项目刚进入重构准备阶段。现有 Node.js 后端暂时保留，仅作为行为参考；新的 FastAPI 后端将在下一阶段建立。在对应功能完成测试前，不会直接删除旧实现。
-
+每次只迁移一个小功能：阅读旧接口 → 定义 Pydantic 模型 → 实现 FastAPI 路由与 MongoDB 操作 → 编写测试 → 前端联调。这样每一步都有可运行结果，也能明确学到的 Python 知识。

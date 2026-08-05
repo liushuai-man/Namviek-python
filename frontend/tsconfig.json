@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["*"],
+      "@/components/*": ["app/_components/*"],
+      "@/events/*": ["app/_events/*"],
+      "@/features/*": ["app/_features/*"],
+      "@/hooks/*": ["app/_hooks/*"],
+      "@/services/*": ["services/*"],
+      "@/store/*": ["store/*"],
+      "@auth-client": ["packages/auth-client/src/index.ts"],
+      "@namviek/core": ["packages/core/src/index.ts"],
+      "@namviek/core/*": ["packages/core/src/*"],
+      "@namviek/core/client": ["packages/core/src/client/index.ts"],
+      "@ui-components": ["packages/ui-components/src/index.ts"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
