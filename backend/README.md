@@ -29,6 +29,17 @@ uv run fastapi dev app/main.py
 - API 文档：<http://127.0.0.1:8000/docs>
 - 健康检查：<http://127.0.0.1:8000/api/v1/health>
 
+## 鉴权接口
+
+| 方法 | 路径 | 作用 |
+| --- | --- | --- |
+| POST | `/api/auth/sign-up` | 邮箱注册 |
+| POST | `/api/auth/sign-in` | 登录并返回访问/刷新令牌 |
+| POST | `/api/auth/refresh-token` | 轮换令牌 |
+| GET | `/api/auth/me` | 读取当前登录用户 |
+
+实现结构和学习说明见 [`docs/AUTHENTICATION.md`](../docs/AUTHENTICATION.md)。
+
 ## 运行检查
 
 ```powershell

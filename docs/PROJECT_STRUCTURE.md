@@ -66,6 +66,8 @@
 | `.env.example` | 后端配置示例，不包含真实密钥 |
 | `README.md` | 后端独立运行和检查命令 |
 
+鉴权模块的完整请求链路、接口和安全决策见 [`AUTHENTICATION.md`](./AUTHENTICATION.md)。
+
 后续按需要增加：
 
 ```text

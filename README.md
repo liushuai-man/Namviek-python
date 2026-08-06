@@ -69,7 +69,7 @@ yarn dev
 ### 1. 工程基线
 
 - [x] 标注上游项目、原作者和非官方 Demo 身份
-- [x] 保存旧 Node.js 实现到 `node` 分支
+- [x] 保存旧 Node.js 实现到 `backend/node` 分支
 - [x] 拆分独立的 `frontend/` 与 `backend/`
 - [x] 移除 Nx、旧 Node 后端和旧部署配置
 - [x] 初始化 FastAPI、Ruff、mypy 和 pytest
@@ -80,16 +80,19 @@ yarn dev
 ### 2. MongoDB
 
 - [x] 使用 Docker Compose 启动本地 MongoDB replica set
-- [ ] 用 PyMongo `AsyncMongoClient` 管理连接生命周期
-- [ ] 配置环境变量、启动检查和连接关闭
+- [x] 用 PyMongo `AsyncMongoClient` 管理连接生命周期
+- [x] 配置环境变量、启动检查和连接关闭
 - [ ] 学习 document、collection、ObjectId 和 BSON 类型
-- [ ] 为核心查询设计唯一索引与复合索引
-- [ ] 编写 MongoDB 集成测试和测试数据夹具
+- [x] 为用户邮箱建立唯一索引
+- [x] 编写第一条 MongoDB 鉴权集成测试和测试数据夹具
 - [ ] 整理旧 Prisma schema 到 Python/MongoDB 模型的映射
 
 ### 3. API 迁移
 
-- [ ] 鉴权：注册、登录、刷新令牌和密码重置
+- [x] 鉴权基础：邮箱注册、登录、刷新令牌和当前用户
+- [x] 鉴权依赖、Argon2 密码摘要、JWT 与统一异常
+- [ ] 鉴权扩展：邮箱验证、忘记/重置密码和 Google 登录
+- [ ] 会话安全：退出登录、Refresh Token 撤销和登录限流
 - [ ] 用户与个人资料
 - [ ] 组织、邀请、成员和权限
 - [ ] 项目、视图、状态和自定义字段

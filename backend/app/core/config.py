@@ -18,6 +18,9 @@ class Settings(BaseSettings):
 
     jwt_secret_key: SecretStr
     jwt_refresh_key: SecretStr
+    access_token_expire_minutes: int = 30
+    refresh_token_expire_days: int = 4
+    registration_enabled: bool = True
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -27,4 +30,5 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    # Values required by Settings are supplied dynamically by the environment.
+    return Settings()  # type: ignore[call-arg]
