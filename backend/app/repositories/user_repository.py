@@ -58,6 +58,15 @@ class MongoUserRepository:
         document = await self._collection.find_one({"_id": object_id})
         return _as_user_document(document) if document else None
 
+    async def update(
+        self, user_id: ObjectId, updates: dict[str, object]
+    ) -> UserDocument | None:
+        updates["updated_at"] = datetime.now(UTC)
+        document = await self._collection.find_one_and_update(
+            {"_id": user_id}, {"$set": updates}, return_document=True
+        )
+        return _as_user_document(document) if document else None
+
 
 def _as_user_document(document: Mapping[str, object]) -> UserDocument:
     return cast(UserDocument, dict(document))
