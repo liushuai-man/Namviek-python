@@ -25,13 +25,12 @@ export const reportStore = localforage.createInstance({
 
 const ReportSavedListContext = createContext<IContext>({
   list: [],
-  setList: () => console.log(1)
+  setList: () => {}
 })
 export const ReportSavedListProvider = function({ children }: { children: ReactNode }) {
   const [list, setList] = useState<ISavedItem[]>([])
 
   useEffect(() => {
-    console.log('get data from store')
     reportStore.keys().then(async keys => {
       if (!keys || !keys.length) {
         setList([])

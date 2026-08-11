@@ -1,4 +1,4 @@
-import { useChecklistStore } from "./store";
+﻿import { useChecklistStore } from "./store";
 import { taskChecklistSv } from "@/services/task.checklist";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useEffect } from "react";
@@ -24,7 +24,7 @@ export default function useGetTaskChecklist(taskId: string) {
       setCheclistLoading(false)
 
     }).catch(err => {
-      console.log(err)
+      console.error(err)
       setCheclistLoading(false)
     })
   }, [taskId])

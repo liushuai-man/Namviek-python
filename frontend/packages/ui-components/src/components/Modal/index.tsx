@@ -49,10 +49,6 @@ export default function Modal({
         <Dialog.Overlay className="modal-overlay">
           <Dialog.Content
             onEscapeKeyDown={ev => {
-              console.log(
-                'stopEscapeKeyCloseModal',
-                window.stopEscapeKeyCloseModal
-              )
               if (window.stopEscapeKeyCloseModal) {
                 ev.preventDefault()
               }

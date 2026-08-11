@@ -28,7 +28,6 @@ export const useOrgMemberStore = create<OrgMemberState>(set => ({
       })
     ),
   removeFromOrg: (uid: string) => set(produce((state: OrgMemberState) => {
-    console.log(1)
     state.orgMembers = state.orgMembers.filter(m => m.id !== uid)
   }))
 }))

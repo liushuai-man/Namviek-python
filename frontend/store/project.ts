@@ -74,7 +74,6 @@ export const useProjectStore = create<ProjectState>(set => ({
   addProject: (data: Project) =>
     set(
       produce((state: ProjectState) => {
-        console.log('new project added', data)
         state.projects.push(data)
       })
     ),

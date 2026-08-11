@@ -129,7 +129,7 @@ export default function ProjectVision() {
       })
       .catch(err => {
         clearLoading()
-        console.log(err)
+        console.error(err)
       })
 
     return () => {

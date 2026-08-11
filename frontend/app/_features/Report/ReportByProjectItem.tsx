@@ -1,4 +1,4 @@
-import { reportService } from '@/services/report'
+﻿import { reportService } from '@/services/report'
 import { useProjectStore } from '@/store/project'
 import { Stats } from '@prisma/client'
 import { Loading } from '@ui-components'
@@ -49,7 +49,6 @@ export default function ReportByProjectItem({
       const { data } = res.data
       const dailyData = data as Record<string, Stats[]>
 
-      console.log(dailyData)
       if (!Object.keys(dailyData).length) {
         setXAxis([])
         setYAxis([])
@@ -75,8 +74,6 @@ export default function ReportByProjectItem({
           const unDoneTotal = dailyItemData.unDoneTotal as number
 
           const key = dailyItem.date
-          // console.log(dailyItem.date, unDoneTotal)
-
           const t = totalData.get(key) || 0
           totalData.set(key, t + unDoneTotal)
         }

@@ -49,8 +49,6 @@ export default function PrioritySelectMultiple({
     }
   }, [updateCounter, val])
 
-  console.log('val', val)
-
   return (
     <div className={className}>
       <List

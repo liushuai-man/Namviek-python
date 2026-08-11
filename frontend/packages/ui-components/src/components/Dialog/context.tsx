@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, createContext, useContext } from "react";
+﻿import { Dispatch, SetStateAction, createContext, useContext } from "react";
 
 type DialogContextProps = {
   open: boolean
@@ -7,7 +7,7 @@ type DialogContextProps = {
 
 export const DialogContext = createContext<DialogContextProps>({
   open: false,
-  onOpenChange: () => { console.log(1) }
+  onOpenChange: () => {}
 })
 
 export const DialogProvider = DialogContext.Provider

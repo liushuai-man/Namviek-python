@@ -62,7 +62,7 @@ export default function SigninForm() {
         provider: 'GOOGLE'
       })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -73,7 +73,6 @@ export default function SigninForm() {
     setEmail(values.email)
     signin(values)
       .then(res => {
-        console.log('sign in return', res)
         trackingEvent({
           action: GAAction.SIGN_IN,
           category: GACategory.AUTHEN,
@@ -105,7 +104,7 @@ export default function SigninForm() {
           }
         } catch (error) {
           messageError('Something went wrong as getting user')
-          console.log(error)
+          console.error(error)
         }
       })
       .catch(err => {

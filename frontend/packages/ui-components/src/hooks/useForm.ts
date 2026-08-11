@@ -20,9 +20,7 @@ export default function useForm(config: IUseForm) {
     onSubmit: (values) => {
       setLoading(true)
       if (config.validateFn) {
-        const { error, errorArr, data } = config.validateFn(values)
-
-        console.log(error, errorArr)
+        const { error, errorArr } = config.validateFn(values)
 
         if (error) {
           formik.setErrors(errorArr)

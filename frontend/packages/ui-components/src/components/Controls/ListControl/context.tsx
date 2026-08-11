@@ -1,14 +1,14 @@
-import { createContext, useContext } from "react"
+﻿import { createContext, useContext } from "react"
 import { ListContextProps } from "./type"
 
 const ListContext = createContext<ListContextProps>({
   name: '',
   placeholder: '',
-  onFormikChange: () => {console.log('onFormikChange')},
+  onFormikChange: () => {},
   visible: false,
-  setVisible: () => {console.log('setVisible')},
+  setVisible: () => {},
   value: {id: '', title: ''},
-  onChange: () => {console.log('onChange')},
+  onChange: () => {},
   disabled: false,
   readOnly: false
 })

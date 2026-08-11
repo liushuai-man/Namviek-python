@@ -1,6 +1,13 @@
 'use client'
 
-import { Button, Form, FormGroup, Loading, messageError, messageWarning } from '@ui-components'
+import {
+  Button,
+  Form,
+  FormGroup,
+  Loading,
+  messageError,
+  messageWarning
+} from '@ui-components'
 import { useFormik } from 'formik'
 import { orgCreate } from '../../../services/organization'
 import { Organization } from '@prisma/client'
@@ -11,9 +18,9 @@ import { useState } from 'react'
 import { setOrgInfo } from '@/layouts/OrgSection'
 
 type ErrorMessage = {
-  error: string;
-  message: string;
-  status: number;
+  error: string
+  message: string
+  status: number
 }
 
 export default function CreateOrganization() {
@@ -23,17 +30,20 @@ export default function CreateOrganization() {
   const handleAxiosError = (err: AxiosError) => {
     const { message } = err.response?.data as ErrorMessage
     if (message === 'REACHED_MAX_ORGANIZATION') {
-      messageWarning('Sorry, You have created more than 2 organization. Please contact admin to upgrade');
+      messageWarning(
+        'Sorry, You have created more than 2 organization. Please contact admin to upgrade'
+      )
     } else if (message === 'DUPLICATE_ORGANIZATION') {
-      messageError('The organization name already exists.');
+      messageError('The organization name already exists.')
     }
-  };
+  }
 
   const formik = useFormik({
     initialValues: {
       name: '',
       desc: '',
-      cover: 'https://cdn.jsdelivr.net/npm/emoji-datasource-twitter/img/twitter/64/1f344.png',
+      cover:
+        'https://cdn.jsdelivr.net/npm/emoji-datasource-twitter/img/twitter/64/1f344.png'
     },
     onSubmit: values => {
       values.name = values.name.trim()
@@ -55,31 +65,32 @@ export default function CreateOrganization() {
 
       setLoading(true)
 
-      orgCreate(values).then(res => {
-        const { status } = res
-        const { data } = res.data
-        const org = data as Organization
+      orgCreate(values)
+        .then(res => {
+          const { status } = res
+          const data = res.data?.data ?? res.data
+          const org = data as Organization
 
-        if (status !== 200) {
-          setLoading(false)
-          messageError('Cannot create organization')
-          return
-        }
+          if (status < 200 || status >= 300) {
+            setLoading(false)
+            messageError('Cannot create organization')
+            return
+          }
 
-        console.log('res org', org)
+          setOrgInfo({
+            name: org.name,
+            cover: org.cover || ''
+          })
 
-        setOrgInfo({
-          name: org.name,
-          cover: org.cover || ''
+          push(`/${org.slug}/my-works`)
         })
-
-        push(`/${org.slug}/my-works`)
-      }).catch(err => {
-        const error = err as AxiosError
-        handleAxiosError(error)
-      }).finally(() => {
-        setLoading(false)
-      })
+        .catch(err => {
+          const error = err as AxiosError
+          handleAxiosError(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   })
 
@@ -99,7 +110,7 @@ export default function CreateOrganization() {
     <form onSubmit={formik.handleSubmit}>
       <div className="org">
         <div className="org-setup relative">
-          <Loading.Absolute enabled={loading} title='Submitting' />
+          <Loading.Absolute enabled={loading} title="Submitting" />
           {/* <section className="setup-step mb-4"><span>Step 1/</span>6</section> */}
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-400 mb-3">
             Hey fen, 🖖
@@ -111,13 +122,16 @@ export default function CreateOrganization() {
           </p>
 
           <div className="org-form mt-4 space-y-4">
-            <FormGroup title='Organization name'>
-              <EmojiInput value={formik.values.cover} onChange={val => {
-                formik.setFieldValue('cover', val)
-              }} />
+            <FormGroup title="Organization name">
+              <EmojiInput
+                value={formik.values.cover}
+                onChange={val => {
+                  formik.setFieldValue('cover', val)
+                }}
+              />
 
               <Form.Input
-                className='w-full'
+                className="w-full"
                 {...registerForm('name', formik)}
               />
             </FormGroup>

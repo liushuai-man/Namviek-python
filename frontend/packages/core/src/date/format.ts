@@ -1,8 +1,7 @@
-import { format } from 'date-fns'
+﻿import { format } from 'date-fns'
 
 export function getDatesInMonth(date: Date) {
-  console.log('a')
-}
+  }
 
 export function dateFormat(date: number | Date, formatString: string) {
   return format(date, formatString)

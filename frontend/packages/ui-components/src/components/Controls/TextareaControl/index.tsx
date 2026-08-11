@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+﻿import { ChangeEvent, useEffect, useState } from "react";
 import { TextareaProps } from "../type";
 
 export default function TextareaControl({
@@ -40,8 +40,7 @@ export default function TextareaControl({
           const target = ev.target as HTMLTextAreaElement
           if (ev.key === 'Enter' && !ev.shiftKey) {
             onEnter && onEnter(target.value, target)
-            console.log('pressed Enter')
-          }
+            }
         }}
         placeholder={placeholder}
         className="form-input"

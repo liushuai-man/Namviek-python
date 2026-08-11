@@ -1,3 +1,4 @@
+import re
 from bson import ObjectId
 
 from app.core.errors import AppError
@@ -35,6 +36,13 @@ from app.schemas.org import (
 )
 
 
+def _generate_slug(name: str) -> str:
+    slug = re.sub(r"[^a-zA-Z0-9\u4e00-\u9fff]+", "-", name.strip().lower()).strip("-")
+    if not slug:
+        slug = f"org-{ObjectId()}"
+    return slug[:50]
+
+
 class OrgService:
     def __init__(self, repo: MongoOrgRepository) -> None:
         self._repo = repo
@@ -42,11 +50,14 @@ class OrgService:
     # ── Organization ──────────────────────────────────────────────────
 
     async def create_org(self, data: OrgCreateRequest, user_id: str) -> OrgResponse:
+        description = data.desc if data.desc else data.description
+        slug = data.slug if data.slug else _generate_slug(data.name)
         org = await self._repo.create_org(
             name=data.name,
-            slug=data.slug,
-            description=data.description,
+            slug=slug,
+            description=description,
             created_by=ObjectId(user_id),
+            cover=data.cover,
         )
         return _to_org_response(org)
 
@@ -72,8 +83,11 @@ class OrgService:
         updates: dict[str, object] = {}
         if data.name is not None:
             updates["name"] = data.name
-        if data.description is not None:
-            updates["description"] = data.description
+        description = data.desc if data.desc else data.description
+        if description is not None:
+            updates["description"] = description
+        if data.cover is not None:
+            updates["cover"] = data.cover
         if data.logo is not None:
             updates["logo"] = data.logo
         org = await self._repo.update_org(ObjectId(data.id), updates)
@@ -306,6 +320,7 @@ def _to_org_response(doc: OrganizationDocument) -> OrgResponse:
         name=doc["name"],
         slug=doc["slug"],
         description=doc.get("description", ""),
+        cover=doc.get("cover"),
         logo=doc.get("logo"),
         createdBy=str(doc["createdBy"]),
         createdAt=doc["createdAt"],

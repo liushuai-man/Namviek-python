@@ -41,14 +41,12 @@ interface IVisionContextProps {
 const VisionContext = createContext<IVisionContextProps>({
   mode: EVisionViewMode.CALENDAR,
   setMode: () => {
-    console.log(5)
   },
   loading: false,
   filter: {
     month: new Date().getMonth() + 1
   },
   setFilter: () => {
-    console.log(4)
   },
   visions: [],
   taskDone: 0,
@@ -57,13 +55,10 @@ const VisionContext = createContext<IVisionContextProps>({
   visionByDays: {},
   selected: '',
   setSelected: () => {
-    console.log(3)
   },
   setLoading: () => {
-    console.log(2)
   },
   setVisions: () => {
-    console.log(1)
   }
 })
 

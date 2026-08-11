@@ -1,4 +1,4 @@
-import { Button, Form, messageSuccess, messageError } from '@ui-components'
+﻿import { Button, Form, messageSuccess, messageError } from '@ui-components'
 import Link from 'next/link'
 import { useUser, saveGoalieUser } from '@auth-client'
 import { useState } from 'react'
@@ -30,8 +30,6 @@ export default function ProfileTab() {
       })
 
       const resp = data.data as User
-      console.log(resp)
-
       // Update the user in localStorage with the updated data
       if (resp && user) {
         // Preserve the existing user data and update with new data

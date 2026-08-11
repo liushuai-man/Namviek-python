@@ -24,7 +24,6 @@ export const projectQuickAdd = (
     members: string[]
   }
 ) => {
-  console.log('project add data', data)
   return httpPost('/api/project', data)
 }
 

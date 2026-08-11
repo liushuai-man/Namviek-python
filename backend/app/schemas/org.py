@@ -6,14 +6,18 @@ from pydantic import BaseModel, Field
 
 class OrgCreateRequest(BaseModel):
     name: str = Field(min_length=1, max_length=100)
-    slug: str = Field(min_length=1, max_length=50)
+    slug: str | None = Field(default=None, max_length=50)
     description: str = ""
+    desc: str | None = None
+    cover: str | None = None
 
 
 class OrgUpdateRequest(BaseModel):
     id: str
     name: str | None = None
     description: str | None = None
+    desc: str | None = None
+    cover: str | None = None
     logo: str | None = None
 
 
@@ -28,6 +32,7 @@ class OrgResponse(BaseModel):
     name: str
     slug: str
     description: str = ""
+    cover: str | None = None
     logo: str | None = None
     createdBy: str
     createdAt: datetime

@@ -46,8 +46,6 @@ const useRemapData = () => {
 
       remapped.push(newRow)
     })
-    console.log('---------------')
-    console.log(remapped[0])
     setRows(remapped)
   }, [mapped, originRows, setRows])
 

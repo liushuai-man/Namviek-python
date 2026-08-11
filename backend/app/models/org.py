@@ -9,6 +9,7 @@ class OrganizationDocument(TypedDict):
     name: str
     slug: str
     description: str
+    cover: str | None
     logo: str | None
     createdBy: ObjectId
     createdAt: datetime

@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FocusEvent, useRef } from 'react'
+﻿import { useState, useEffect, ChangeEvent, FocusEvent, useRef } from 'react'
 import Addon from './Addon'
 import InputIcon from './InputIcon'
 import './style.css'
@@ -38,7 +38,6 @@ export default function InputControl({
   }
 
   // useEffect(() => {
-  //   console.log(value)
   //   setVal(value)
   // }, [value])
 

@@ -9,13 +9,14 @@ export const useOrgIdBySlug = () => {
 
   const fetchOrg = () => {
     orgGetBySlug(orgName).then(res => {
-      const { data } = res.data
+      const data = res.data?.data ?? res.data
+      if (!data || !data.id) return
       setLocalCache('ORG_ID', data.id)
       setLocalCache('ORG_SLUG', data.slug)
 
       setOrgId(data.id)
     }).catch(e => {
-      console.log(e)
+      console.error(e)
     })
   }
 

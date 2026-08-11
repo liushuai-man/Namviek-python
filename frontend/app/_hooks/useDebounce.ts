@@ -15,10 +15,8 @@ export const useDebounce = (cb: EffectCallback, dependencies?: DependencyList, t
       }
 
       if (timeout.current) {
-        // console.log('debounce run')
         clearTimeout(timeout.current)
       }
     }
   }, dependencies)
 }
-

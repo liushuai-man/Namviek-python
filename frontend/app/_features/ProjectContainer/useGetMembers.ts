@@ -19,8 +19,6 @@ export const useGetMembersHandler = (projectId: string) => {
           return
         }
 
-        console.log('fetch member data', data)
-
         localforage.setItem(key, data)
         setTimeout(() => {
           addAllMember(data)

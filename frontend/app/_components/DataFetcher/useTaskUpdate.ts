@@ -33,7 +33,6 @@ export const useTaskUpdate = () => {
       fieldId
     }).then(res => {
       const { data, status } = res.data
-      console.log('returned data:', data, status)
       if (status !== 200) return
       messageSuccess('Update field value sucecss')
     })

@@ -38,7 +38,6 @@ export const saveGoalieToken = (token: string) => {
   try {
     localStorage.setItem(GOALIE_JWT_TOKEN, token)
   } catch (error) {
-    console.log('jwt token not saved')
   }
 }
 
@@ -46,7 +45,6 @@ export const saveGoalieRefreshToken = (token: string) => {
   try {
     localStorage.setItem(GOALIE_REFRESH_TOKEN, token)
   } catch (error) {
-    console.log('refresh token not saved')
   }
 }
 

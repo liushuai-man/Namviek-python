@@ -15,7 +15,6 @@ export const dboardCreate = ({ projectId, title }: IDBoardProps) => {
 }
 
 export const dboardGet = (projectId: string) => {
-  console.log('dboard get ', projectId)
   return httpGet('/api/dboard', {
     params: {
       projectId
@@ -42,7 +41,6 @@ export const dboardComponentDel = (componentId: string) => {
 export const dboardComponentCreate = (
   data: Partial<Omit<DashboardComponent, 'id'>>
 ) => {
-  console.log('dboard component creaet', data)
   return httpPost('/api/dboard/component', data)
 }
 

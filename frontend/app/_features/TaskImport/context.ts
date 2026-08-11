@@ -19,19 +19,14 @@ const ImportContext = createContext<ITaskImport>({
   heading: [],
   originRows: [],
   setOriginRows: () => {
-    console.log(1)
   },
   setHeading: () => {
-    console.log(1)
   },
   setRows: () => {
-    console.log('1')
   },
   setVisible: () => {
-    console.log('2')
   },
   setStep: () => {
-    console.log('2')
   }
 })
 export const TaskImportProvider = ImportContext.Provider

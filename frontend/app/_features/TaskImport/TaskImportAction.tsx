@@ -158,7 +158,6 @@ export default function TaskImportAction() {
     }
 
     nextStep()
-    console.log('start importing')
     taskAddMany({ data: tasks, projectId })
       .then(res => {
         const { status, error } = res.data

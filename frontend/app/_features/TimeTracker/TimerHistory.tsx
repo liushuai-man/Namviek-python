@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Card, messageError, Button } from '@ui-components';
 import { timerService } from '@/services/timer';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -45,8 +45,6 @@ const TimerHistory: React.FC<TimerHistoryProps> = ({ taskId }) => {
       const response = await timerService.getTimerLogs(taskId, page, ITEMS_PER_PAGE);
       const { data, pagination } = response.data.data;
 
-      console.log(data, pagination);
-      
       setTimerLogs(Array.isArray(data) ? data : []);
       setTotalItems(pagination?.total || 0);
       setTotalPages(pagination?.totalPages || 1);

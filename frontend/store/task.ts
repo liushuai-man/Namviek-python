@@ -57,7 +57,6 @@ export const useTaskStore = create<TaskState>(set => ({
   toggleMultipleSelected: (stt: boolean, ids: string[]) =>
     set(
       produce((state: TaskState) => {
-        console.time('toggleMultipleSelect')
         if (stt) {
           const newSelected = new Set([...state.selected, ...ids])
           state.selected = Array.from(newSelected)
@@ -65,29 +64,12 @@ export const useTaskStore = create<TaskState>(set => ({
           state.selected = state.selected.filter(s => !ids.includes(s))
         }
 
-        // console.log(
-        //   JSON.parse(
-        //     JSON.stringify(
-        //       state.tasks.map(t => ({ id: t.id, selected: t.selected }))
-        //     )
-        //   )
-        // )
-
         state.tasks = state.tasks.map(task => {
           if (ids.includes(task.id)) {
             task.selected = stt
           }
           return task
         })
-        console.timeEnd('toggleMultipleSelect')
-
-        // console.log(
-        //   JSON.parse(
-        //     JSON.stringify(
-        //       state.tasks.map(t => ({ id: t.id, selected: t.selected }))
-        //     )
-        //   )
-        // )
       })
     ),
   toggleSelected: (id: string) =>
@@ -153,8 +135,6 @@ export const useTaskStore = create<TaskState>(set => ({
 
         const map = new Map()
         selected.forEach(s => map.set(s, true))
-
-        console.log('update multiple', selected, data)
 
         state.tasks = state.tasks.map(task => {
           if (!map.has(task.id)) return task

@@ -77,9 +77,6 @@ export default function TaskImportPreview() {
               title="Next"
               disabled={totalPage <= 1 || page >= totalPage}
               onClick={() => {
-                if (page <= totalPage) {
-                  console.log('111')
-                }
                 setPage(page + 1)
               }}
             />

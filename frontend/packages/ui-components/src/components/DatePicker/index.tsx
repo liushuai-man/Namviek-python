@@ -106,7 +106,7 @@ export default function DatePicker({
         const formatData = format(d, dateFormat)
         return formatData
       } catch (error) {
-        console.log('datepicker format string error: ', error)
+        console.error('datepicker format string error: ', error)
         return format(d, 'PP')
       }
     }

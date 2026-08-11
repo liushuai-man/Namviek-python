@@ -27,9 +27,6 @@ export const signin = ({
       const { status, data } = res.data
       const { headers } = res
 
-      console.log('headers', headers)
-      console.log(status)
-
       if (status === 403) {
         return Promise.reject('NOT_ACTIVE')
       }
@@ -41,15 +38,12 @@ export const signin = ({
       const token = headers.authorization
       const refreshToken = headers.refreshtoken
 
-      console.log('cache goalie token')
       saveGoalieToken(token)
-      console.log('cache goalie refresh token')
       saveGoalieRefreshToken(refreshToken)
 
       // const decodeJWT = decode(token) as GoalieUser
       const decodeRefreshToken = decode(refreshToken) as { exp: number }
 
-      console.log('cache goalie user info')
       saveGoalieUser({
         id: data.id,
         email: data.email,
@@ -61,7 +55,7 @@ export const signin = ({
       return Promise.resolve('SUCCESS')
     })
     .catch(error => {
-      console.log('error signin', error)
+      console.error('error signin', error)
       return Promise.reject(error)
     })
 }

@@ -25,7 +25,6 @@ export default function ProjectReportSetting() {
         countProjectTask: boolean
       }
 
-      console.log('reportData', reportData)
       setReportSetting({
         countProjectTask: !!reportData.countProjectTask,
         countMemberTask: !!reportData.countMemberTask

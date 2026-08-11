@@ -12,9 +12,6 @@ export const orgCreate = (data: Partial<Organization>) => {
     const { data } = res.data;
     const organization = data as Organization
 
-    console.log(organization)
-    
-
     return Promise.resolve('SUCCESS');
   });
 };

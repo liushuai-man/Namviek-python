@@ -7,7 +7,6 @@ export const useServiceTaskDel = () => {
   const { delTask, delTasks } = useTaskStore()
 
   const deleteTask = (id: string) => {
-    console.log('delete task called', id)
     delTask(id)
 
     taskDelete({

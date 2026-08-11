@@ -15,8 +15,6 @@ export const projectPointCreate = (data: Omit<TaskPoint, 'id'>) => {
 }
 
 export const projectPointUpdate = (data: TaskPoint) => {
-  // console.log({ data })
-  // return httpPut('/api/project/point', { data: data })
   return httpPut('/api/project/point', data)
 }
 

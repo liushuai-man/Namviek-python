@@ -37,14 +37,11 @@ export const messageInfo: MessageFunc = (message) => {
 };
 
 export const messageSuccess: MessageFunc = (message) => {
-  console.log("success called");
   createMessage("success", message);
 };
 export const messageWarning: MessageFunc = (message) => {
-  console.log("warning cinfoinfoalled");
   createMessage("warning", message);
 };
 export const messageError: MessageFunc = (message) => {
-  console.log("alert called");
   createMessage("error", message);
 };

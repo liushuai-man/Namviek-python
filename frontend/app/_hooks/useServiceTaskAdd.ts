@@ -31,7 +31,7 @@ export const useServiceTaskAdd = () => {
       })
       .catch(err => {
         messageError('Create new task error')
-        console.log(err)
+        console.error(err)
       })
       .finally(() => {
         // setLoading(false)

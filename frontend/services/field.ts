@@ -5,7 +5,6 @@ type PartialField = Partial<Field>
 
 export const fieldSv = {
   create(data: PartialField) {
-    console.log('fieldSv.create', data)
     return httpPost('/api/fields', data)
   },
 

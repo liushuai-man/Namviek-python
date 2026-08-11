@@ -26,12 +26,10 @@ export default function CustomFieldResize({ id, index, width }: { index: number,
   const handleMouseUp = useCallback(() => {
     setResizing({ index: -1, startX: 0, width: 0 })
     if (newWidth != -1 && id) {
-      console.log('update field width on database')
       fieldSv.update({
         id,
         width: newWidth
       }).then(res => {
-        console.log('ok', res.data)
       })
       setNewWidth(-1)
     }

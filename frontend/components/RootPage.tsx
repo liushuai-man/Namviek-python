@@ -9,25 +9,15 @@ import { orgGet } from '../services/organization'
 export default function RootPage() {
   const { push } = useRouter()
   const [orgs, setOrgs] = useState<Organization[]>([])
-  console.log('root page')
   useEffect(() => {
     orgGet().then(res => {
-      const { data, status } = res.data
-      if (status !== 200) {
-        return
-      }
-
-      console.log(data)
-
-      // if use have no organization
-      if (!data || !data.length) {
+      const data = res.data?.data ?? res.data
+      if (!data || !Array.isArray(data) || !data.length) {
         push('/organization/create')
         return
       }
 
       setOrgs(data)
-
-      console.log(data)
     })
   }, [])
 

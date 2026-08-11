@@ -46,13 +46,8 @@ export const useMultipleUpdate = () => {
       dt.assigneeIds = [assignee]
     }
 
-    console.log(data)
-
     if (Object.keys(dt).length) {
-      console.log('updated', dt)
       hasSelected && updateMultiTaskData(selected, dt)
-    } else {
-      console.log('nothing to update')
     }
 
     clearAllSelected()

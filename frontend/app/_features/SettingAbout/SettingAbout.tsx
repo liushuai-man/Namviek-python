@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import EmojiInput from '@/components/EmojiInput'
 import { useDebounce } from '@/hooks/useDebounce'
@@ -27,7 +27,6 @@ export default function SettingAbout() {
         'https://cdn.jsdelivr.net/npm/emoji-datasource-twitter/img/twitter/64/1f344.png'
     },
     onSubmit: values => {
-      console.log(values)
       if (!orgId) return
 
       if (orgRole !== 'ADMIN') {
@@ -36,8 +35,7 @@ export default function SettingAbout() {
           message:
             'Sorry, you do not have permission to do this action. Please contact to admin.',
           yes: () => {
-            console.log(1)
-          }
+            }
         })
         return
       }
@@ -54,7 +52,7 @@ export default function SettingAbout() {
           router.replace(`${orgName}/setting/about`)
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
         })
     }
   })

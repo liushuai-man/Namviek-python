@@ -60,8 +60,6 @@ export default function TaskImportCsvFormat({
       const result = []
       const updateTaskResult: Partial<Task>[] = []
 
-      console.log(lines)
-
       // Iterate over the lines (starting from the second line, as the first line is the header)
       for (let i = 1; i < lines.length; i++) {
         const currentLine = lines[i].split(',').filter(Boolean)
@@ -178,7 +176,6 @@ export default function TaskImportCsvFormat({
     const reader = new FileReader()
     reader.onload = function (e) {
       const text = e.target?.result as string
-      console.log(text)
       if (!text) return
 
       csvToJson(text)

@@ -1,4 +1,4 @@
-import ListPreset from "@/components/ListPreset";
+﻿import ListPreset from "@/components/ListPreset";
 import { dateFormat, genCalendarArr, getLastDateOfMonth, getMonthList } from "@namviek/core";
 import { Button, FormGroup, ListItemValue } from "@ui-components";
 import { useEffect } from "react";
@@ -89,7 +89,6 @@ function ReportHeaderDuration() {
 
       const lastDate = getLastDateOfMonth(new Date(y, +val - 1, 1))
       const duration = `${y}/${val}/1-${y}/${val}/${lastDate.getDate()}`
-      console.log(duration)
       setDuration(duration)
     }
   }
@@ -111,7 +110,6 @@ function ReportHeaderDuration() {
     <ListPreset size="sm" width={120} value={selectedMonth} options={monthOptions} onChange={onSelectMonth} />
     {timeFilter === IReportTimeFilter.WEEK ?
       <ListPreset size="sm" value={selectedWeek} onChange={val => {
-        console.log('val', val)
         setDuration(val)
       }} options={weekOptions} width={150} />
       : null}

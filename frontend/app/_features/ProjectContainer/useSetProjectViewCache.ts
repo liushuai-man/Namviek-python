@@ -19,7 +19,6 @@ export default function useSetProjectViewCache() {
         const views = val as ProjectView[]
 
         views.forEach(v => projectViewMap.set(v.id, v.type))
-        console.log("set project's view cache")
         addAllView(views)
         doReRender()
       }

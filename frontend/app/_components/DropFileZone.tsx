@@ -43,11 +43,9 @@ export default function DropFileZone({
 
   const onDragOver = (ev: DragEvent<HTMLDivElement>) => {
     ev.preventDefault()
-    console.log('over')
     setEnable(true)
   }
   const onDragStop = () => {
-    console.log('exit')
     setEnable(false)
   }
 

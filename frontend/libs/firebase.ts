@@ -35,7 +35,7 @@ export const signinWithGoogle = async (): Promise<{
       .catch(err => {
         const errorCode = err.code
         const errorMessage = err.message
-        console.log(errorCode, errorMessage)
+        console.error(errorCode, errorMessage)
         reject({ errorCode, errorMessage })
       })
   })

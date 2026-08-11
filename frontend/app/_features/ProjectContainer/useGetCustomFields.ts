@@ -6,13 +6,16 @@ import { useParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 export const useGetCustomFieldHandler = (projectId: string) => {
-  const addCustomFields = useProjectCustomFieldStore(state => state.addAllCustomField)
+  const addCustomFields = useProjectCustomFieldStore(
+    state => state.addAllCustomField
+  )
   const key = `PROJECT_CUSTOM_FIELD_${projectId}`
 
   const fetchDataNCache = () => {
     const memberController = new AbortController()
 
-    fieldSv.getByProjectId(projectId)
+    fieldSv
+      .getByProjectId(projectId)
       .then(res => {
         const { data, status } = res.data
         console.log('custom field list', data, status)
@@ -27,7 +30,7 @@ export const useGetCustomFieldHandler = (projectId: string) => {
         }, 300)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
     return { abortController: memberController }
   }
@@ -39,7 +42,9 @@ export const useGetCustomFieldHandler = (projectId: string) => {
 
 export const useGetCustomFields = () => {
   const { projectId } = useParams()
-  const addAllCustomField = useProjectCustomFieldStore(state => state.addAllCustomField)
+  const addAllCustomField = useProjectCustomFieldStore(
+    state => state.addAllCustomField
+  )
   const { fetch } = useGetCustomFieldHandler(projectId)
   const key = `PROJECT_CUSTOM_FIELD_${projectId}`
 

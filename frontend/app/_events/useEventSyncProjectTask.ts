@@ -26,56 +26,54 @@ export const useEventSyncProjectTask = (projectId: string) => {
 
     console.log('bind event:', eventUpdateName)
     channelTeamCollab &&
-      channelTeamCollab.bind(eventUpdateName, (data: {
-        triggerBy: string,
-        data: Task,
-        type: 'update' | 'delete' | 'create' | 'update-many' | 'delete-many'
-      }) => {
-        const { triggerBy, data: taskData, type } = data
+      channelTeamCollab.bind(
+        eventUpdateName,
+        (data: {
+          triggerBy: string
+          data: Task
+          type: 'update' | 'delete' | 'create' | 'update-many' | 'delete-many'
+        }) => {
+          const { triggerBy, data: taskData, type } = data
 
-        if (triggerBy === user.id) return
+          if (triggerBy === user.id) return
 
-        console.log('data', taskData)
-        if (type === 'update' && taskData) {
-          // fetchNCache()
-          updateLocalTask(taskData)
-          return
-          // messageInfo("trigger by " + triggerBy)
-        }
+          console.log('data', taskData)
+          if (type === 'update' && taskData) {
+            // fetchNCache()
+            updateLocalTask(taskData)
+            return
+            // messageInfo("trigger by " + triggerBy)
+          }
 
-        if (type === 'update-many') {
-          fetchNCache()
-          return
-        }
-
-        if (type === 'delete-many') {
-          fetchNCache()
-          return
-        }
-
-        if (type === 'create') {
-          if (!taskData || !taskData.id) {
-            console.log('type:', type)
-            console.log('taskDAta:', taskData)
+          if (type === 'update-many') {
+            fetchNCache()
             return
           }
 
-          createLocalTask(taskData)
-          return
-
-        }
-
-        if (type === 'delete') {
-          if (!taskData || !taskData.id) {
-            console.log('type:', type)
-            console.log('taskDAta:', taskData)
+          if (type === 'delete-many') {
+            fetchNCache()
             return
           }
 
-          deleteLocalTask(taskData.id)
-          return
+          if (type === 'create') {
+            if (!taskData || !taskData.id) {
+              return
+            }
+
+            createLocalTask(taskData)
+            return
+          }
+
+          if (type === 'delete') {
+            if (!taskData || !taskData.id) {
+              return
+            }
+
+            deleteLocalTask(taskData.id)
+            return
+          }
         }
-      })
+      )
 
     return () => {
       channelTeamCollab && channelTeamCollab.unbind(eventUpdateName)

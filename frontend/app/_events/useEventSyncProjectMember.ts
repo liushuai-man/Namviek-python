@@ -18,11 +18,9 @@ export const useEventSyncProjectMember = (projectId: string) => {
 
     const eventName = `userProject.sync-to-project-${projectId}`
 
-    console.log('bind event:', eventName)
     channelTeamCollab &&
       channelTeamCollab.bind(eventName, (data: { triggerBy: string }) => {
         if (data.triggerBy === user.id) return
-        console.log('called', eventName)
         fetch()
       })
 

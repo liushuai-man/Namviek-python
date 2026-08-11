@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
 
 import StarterKit from '@tiptap/starter-kit'
@@ -36,8 +36,6 @@ export default function TextareaControl({
     editable: !disabled,
     onUpdate: ({ editor }) => {
       if (disabled) return
-      console.log('on update ')
-
       const content = editor.getHTML()
 
       onChange && onChange(content)

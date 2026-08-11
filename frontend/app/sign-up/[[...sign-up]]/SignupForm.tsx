@@ -38,12 +38,11 @@ export default function SignupForm() {
             }
 
             messageError('Error')
-            console.log(error)
+            console.error(error)
             return
           }
 
           if (data && data.status === UserStatus.ACTIVE) {
-            console.log('done')
             messageSuccess('Congratulations! Your account has been successfully created !')
             push('/sign-in')
             return
@@ -52,7 +51,7 @@ export default function SignupForm() {
           setSuccess(true)
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           messageError('Your information is invalid')
         })
         .finally(() => setLoading(false))

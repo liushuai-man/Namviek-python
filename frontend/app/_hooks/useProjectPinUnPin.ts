@@ -9,11 +9,8 @@ export const useProjectPinUnpin = () => {
     pin(id)
     setTimeout(() => {
       projectPin(id)
-        .then(res => {
-          console.log('pinned project done')
-        })
-        .catch(err => {
-          console.log('pin error ')
+        .catch(() => {
+          console.error('pin error')
           messageWarning('pin one by one please ☹')
           unpin(id)
         })
@@ -24,11 +21,8 @@ export const useProjectPinUnpin = () => {
     unpin(id)
     setTimeout(() => {
       projectUnpin(id)
-        .then(res => {
-          console.log('unpinned project done')
-        })
-        .catch(err => {
-          console.log('unpin error')
+        .catch(() => {
+          console.error('unpin error')
           messageWarning('unpin one by one please ☹')
           pin(id)
         })

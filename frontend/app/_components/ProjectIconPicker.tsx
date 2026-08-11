@@ -18,10 +18,9 @@ export default function ProjectIconPicker({
       icon: val
     })
       .then(res => {
-        console.log('update project cover ', res)
       })
       .catch(err => {
-        console.log('update project error', err)
+        console.error('update project error', err)
       })
   }
 

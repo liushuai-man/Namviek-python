@@ -1,4 +1,4 @@
-import { orgGetBySlug } from '@/services/organization'
+﻿import { orgGetBySlug } from '@/services/organization'
 import { useGlobalDataStore } from '@/store/global'
 import { getLocalCache, setLocalCache } from '@namviek/core/client'
 import { useParams, useRouter } from 'next/navigation'
@@ -11,8 +11,11 @@ const useOrgIdBySlug = () => {
 
   const fetchOrg = () => {
     orgGetBySlug(orgName).then(res => {
-      const { data } = res.data
-      console.log('set from fetch data')
+      const data = res.data?.data ?? res.data
+      if (!data || !data.id || !data.slug) {
+        push('/organization')
+        return
+      }
       setLocalCache('ORG_ID', data.id)
       setLocalCache('ORG_SLUG', data.slug)
 
@@ -20,7 +23,7 @@ const useOrgIdBySlug = () => {
       setOrgName(data.slug)
     }).catch(e => {
       push('/organization')
-      console.log('fetching org error', e)
+      console.error(e)
     })
   }
 
@@ -32,7 +35,6 @@ const useOrgIdBySlug = () => {
 
     if (orgSlugCache === orgName && orgIdCache) {
       if (orgIdCache !== orgId) {
-        console.log('set from cache')
         setOrgId(orgIdCache)
         setOrgName(orgName)
         return

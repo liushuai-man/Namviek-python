@@ -33,7 +33,7 @@ export const useGetStatusHandler = (projectId: string, cb?: () => void) => {
         setCache(sortedStatus)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
       .finally(() => {
         setStatusLoading(false)

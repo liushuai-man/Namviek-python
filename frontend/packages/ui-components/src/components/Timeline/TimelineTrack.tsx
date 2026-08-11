@@ -73,7 +73,6 @@ export default function TimelineTrack({
 
   useEffect(() => {
     if (stopCounter && (startCol !== start || endCol !== end)) {
-      console.log('on change')
       onChange && onChange(start, end)
     }
   }, [start, end, stopCounter])
@@ -109,9 +108,6 @@ export default function TimelineTrack({
       setStopCounter(0)
 
       // startPointer({ left: pageX, top: pageY })
-
-      // console.log(ev)
-      // console.log('on start resize ')
     },
     [end]
   )

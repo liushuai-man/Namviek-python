@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { favGet } from '@/services/favorite'
 import { useFavStore } from '@/store/favorite'
@@ -20,7 +20,7 @@ export default function FavoritesList() {
         addAllFavorites(data)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
   }, [])
 

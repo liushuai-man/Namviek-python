@@ -36,7 +36,7 @@ export const useServiceProject = () => {
         }
       })
       .catch(err => {
-        console.log('error get item', err)
+        console.error('error get item', err)
       })
 
     projectGet({

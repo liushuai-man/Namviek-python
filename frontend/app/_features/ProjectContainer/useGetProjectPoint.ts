@@ -20,7 +20,7 @@ export default function useGetProjectPoint() {
         addAllPoints(data)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
 
     return () => {

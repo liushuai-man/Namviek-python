@@ -25,7 +25,6 @@ export const useTaskAdd = () => {
     })
 
     projectGridSv.create(insertedData).then(res => {
-      console.log(res)
       const { data, status } = res.data
       if (status !== 200) return
 

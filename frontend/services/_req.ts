@@ -9,10 +9,6 @@ import {
 import { messageError } from '@ui-components'
 import axios from 'axios'
 
-console.log('=================================')
-console.log('process.env', process.env.NEXT_PUBLIC_BE_GATEWAY)
-console.log('=================================')
-
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BE_GATEWAY || ''
 })
@@ -21,9 +17,6 @@ instance.interceptors.request.use(
   function(config) {
     const authorization = getGoalieToken()
     const refreshToken = getGoalieRefreshToken()
-
-    // console.log('auth toke', authorization)
-    // console.log('refresh', refreshToken)
 
     config.headers.setAuthorization(authorization)
     config.headers.set('refreshtoken', refreshToken)
@@ -40,11 +33,9 @@ instance.interceptors.response.use(
     const authorization = headers.authorization
     const refreshtoken = headers.refreshtoken
 
-    // console.log('override token', authorization, refreshtoken)
     if (authorization && refreshtoken) {
       saveGoalieToken(authorization)
       saveGoalieRefreshToken(refreshtoken)
-      // console.log('override done')
     }
     return config
   },
@@ -59,14 +50,8 @@ instance.interceptors.response.use(
       }
 
       // window.location.href = '/sign-out';
-
-      // console.log('href', pathname)
-      // if (pathname.includes('/sign-in') || pathname.includes('/sign-up')) {
-      //   return;
-      // }
-      // window.location.href = `/sign-in?redirectUrl=${window.location.pathname}`;
     }
-    console.log('ERRIRIRIR', response)
+    console.error('ERRIRIRIR', response)
     return Promise.reject(error)
   }
 )

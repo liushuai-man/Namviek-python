@@ -20,7 +20,6 @@ interface IGoalieContext {
 export const GoalieContext = createContext<IGoalieContext>({
   user: null,
   setUser: user => {
-    console.log('empty setUser function')
   }
 })
 

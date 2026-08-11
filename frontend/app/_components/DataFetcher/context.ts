@@ -21,8 +21,8 @@ export const DataFetcherContext = createContext<DataFetcherContextType>({
   restRecords: 0,
   isLoading: false,
   hasNextPage: false,
-  deleteRow: () => console.log(1),
-  setData: () => console.log(1),
-  fetchNextPage: () => console.log(1),
-  updateCustomFields: () => console.log(1)
+  deleteRow: () => {},
+  setData: () => {},
+  fetchNextPage: () => {},
+  updateCustomFields: () => {}
 })

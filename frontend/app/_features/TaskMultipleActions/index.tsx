@@ -39,7 +39,6 @@ export default function TaskMultipleActions() {
 
   const onClose = () => {
     if (!hasSelected) return
-    console.log('called task multiple actions', hasSelected)
     clearAllSelected()
     setData(structuredClone({ ...defaultData }))
   }

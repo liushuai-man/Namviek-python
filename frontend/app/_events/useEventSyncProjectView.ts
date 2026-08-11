@@ -15,11 +15,9 @@ export const useEventSyncProjectView = (projectId: string) => {
 
     const eventName = `projectView:update-${projectId}`
 
-    console.log('bind event:', eventName)
     channelTeamCollab &&
       channelTeamCollab.bind(eventName, (data: { triggerBy: string }) => {
         if (data.triggerBy === user.id) return
-        console.log('called', eventName)
         // fetch()
         fetchNCache()
       })

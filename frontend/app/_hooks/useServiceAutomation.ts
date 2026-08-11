@@ -75,7 +75,7 @@ export const useServiceAutomation = () => {
         updateAutomation(id, data)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
   }
   return { addAutomation, getAutomationByProject, delAutomation }

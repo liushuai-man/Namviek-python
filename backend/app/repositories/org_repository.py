@@ -33,13 +33,15 @@ class MongoOrgRepository:
     # ── Organization ──────────────────────────────────────────────────
 
     async def create_org(
-        self, *, name: str, slug: str, description: str, created_by: ObjectId
+        self, *, name: str, slug: str, description: str, created_by: ObjectId,
+        cover: str | None = None,
     ) -> OrganizationDocument:
         now = datetime.now(UTC)
         doc: Document = {
             "name": name,
             "slug": slug,
             "description": description,
+            "cover": cover,
             "logo": None,
             "createdBy": created_by,
             "createdAt": now,

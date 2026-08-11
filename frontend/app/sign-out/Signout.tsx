@@ -12,12 +12,9 @@ export default function Signout() {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('clear cache token')
       localforage.clear()
       clearAllGoalieToken()
-      console.log('clear goalie user info')
       clearGoalieUser()
-      console.log('redirecting to /sign-in ...')
       posthog.reset()
       push('/sign-in')
     }, 500)

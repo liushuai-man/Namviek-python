@@ -23,8 +23,6 @@ export default function useServiceFavoriteUpdate() {
 
     removeFromFavorite(id)
     favDel(id, orgId).then(res => {
-      console.log(res)
-      console.log('1231')
       messageSuccess('Removed from your favorites')
     })
   }
@@ -58,8 +56,6 @@ export default function useServiceFavoriteUpdate() {
       messageSuccess('Added to your favorites')
       updateFavorite(randId, data as Favorites)
     })
-
-    console.log(name, icon, link, type)
   }
   return {
     addToFavorite,

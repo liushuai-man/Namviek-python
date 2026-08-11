@@ -112,7 +112,7 @@ function useFillTaskFromCache() {
         }
       })
       .catch(err => {
-        console.log('errpr loading cached task', err)
+        console.error('errpr loading cached task', err)
       })
   }, [projectId])
 }

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Form, Button } from '@ui-components'
 import { useFormik } from 'formik'
@@ -42,7 +42,6 @@ export default function FavoriteAddForm({
           className="-mt-11 "
           value={formik.values.icon}
           onChange={val => {
-            console.log(val)
             formik.setFieldValue('icon', val)
           }}
         />

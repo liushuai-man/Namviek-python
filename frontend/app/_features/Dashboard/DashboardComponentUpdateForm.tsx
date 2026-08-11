@@ -140,8 +140,6 @@ export default function DashboardComponentUpdateForm({
             className="w-full"
             value={formik.values.priority}
             onChange={val => {
-              console.log('user select priority')
-              console.log(val)
               formik.setFieldValue('priority', val)
             }}
           />

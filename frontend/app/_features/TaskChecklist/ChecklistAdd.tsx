@@ -1,4 +1,4 @@
-import { HiOutlinePlus } from "react-icons/hi2";
+﻿import { HiOutlinePlus } from "react-icons/hi2";
 import { useChecklistStore } from "./store";
 import { useRef } from "react";
 import { randomId } from "@ui-components";
@@ -28,7 +28,6 @@ export default function ChecklistAdd({ taskId }: { taskId: string }) {
       taskId,
       title: value
     }).then(res => {
-      console.log(res)
       const { data } = res.data
       const taskChecklist = data as TaskChecklist
 
@@ -47,7 +46,6 @@ export default function ChecklistAdd({ taskId }: { taskId: string }) {
       const target = ev.target as HTMLInputElement
 
       if (ev.key === 'Enter') {
-        console.log(target.value)
         onEnter(target.value)
         ev.preventDefault()
       }

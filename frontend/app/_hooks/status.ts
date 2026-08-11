@@ -26,7 +26,7 @@ export const useStatus = ({ currentColor }: Props) => {
         updateStatus(fakeId, data as TaskStatus)
       })
       .catch(err => {
-        console.log(`Create task status`, err)
+        console.error(`Create task status`, err)
       })
   }
 

@@ -17,11 +17,9 @@ export const useEventUserProjectUpdate = () => {
     if (!user || !user.id) return
     const eventName = `userProject:update.${user.id}`
 
-    console.log('bind event:', eventName)
     channelTeamCollab &&
       channelTeamCollab.bind(eventName, (data: { triggerBy: string }) => {
         if (data.triggerBy === user.id) return
-        console.log('data:', eventName, data)
 
         projectGet({
           orgId: orgID,

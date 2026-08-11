@@ -54,9 +54,6 @@ export default function ResetPasswordForm({ token }: Props) {
     if (loading) return
     setLoading(true)
 
-    console.log('token', token)
-    console.log('password', password)
-
     try {
       await resetPassword({ token, password })
       // messageSuccess('Password has been reset successfully')

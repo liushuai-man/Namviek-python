@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { RichTextEditorProps, TextareaProps } from '../type'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -39,7 +39,6 @@ const DisableEscape = Extension.create({
 //       keymap(baseKeymap),
 //       keymap({
 //         'Shift-a': () => {
-//           console.log('Shift-a pressed')
 //           return true
 //         }
 //       })
@@ -91,7 +90,6 @@ export default function RichTextEditor({
               return true
             },
             'Control-Escape': () => {
-              console.log('Control-escape pressed')
               onCtrlEsc && onCtrlEsc()
               return true
             }

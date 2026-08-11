@@ -19,7 +19,6 @@ try {
   console.warn('Pusher Instance Id is missing')
 }
 
-
 export default function PushNotification() {
   const { user } = useUser()
   useEffect(() => {
@@ -33,12 +32,13 @@ export default function PushNotification() {
             // .then(() => beamsClient.addDeviceInterest('all'))
             .then(() => {
               // messageSuccess('Registered pusher')
-              console.log('Successfully registered and subscribed!')
             })
             .catch(console.error)
         })
       } catch (error) {
-        console.log('Pusher beam missing configuration or configuration invalid')
+        console.error(
+          'Pusher beam missing configuration or configuration invalid'
+        )
       }
     }
   }, [JSON.stringify(user)])

@@ -25,7 +25,6 @@ export default function TaskCheckbox({
       onChange={val => {
         onChecked(val)
         // setChecked(val)
-        console.log(val)
       }}
     />
   )

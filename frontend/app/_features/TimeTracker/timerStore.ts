@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+﻿import { create } from 'zustand'
 import { produce } from 'immer'
 import { timerService } from '@/services/timer'
 import { messageError, messageWarning } from '@ui-components'
@@ -120,8 +120,6 @@ export const useTimerStore = create<TimerState>((set, get) => ({
     try {
       const response = await timerService.getCurrentTimer()
       const { data } = response.data
-      console.log('checkCurrentTimer 3333', data)
-
       if (data) {
         const startTime = new Date(data.startTime).getTime()
         const now = new Date().getTime()

@@ -30,7 +30,6 @@ export default function useGoalieInProtectionMode({
 
     const isInsidePublicPages = publicPages.some(p => p === currentPath)
 
-    console.log('isInsidePublicPages', isInsidePublicPages)
     if (isSessionExpired() && !isInsidePublicPages) {
       clearGoalieUser()
       return push('/sign-in')

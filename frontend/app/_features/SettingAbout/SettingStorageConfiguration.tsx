@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { orgUpdateStorageConfig } from '@/services/organization'
 import {
@@ -46,8 +46,7 @@ export default function SettingStorageConfiguration() {
           message:
             'Sorry, you do not have permission to do this action. Please contact to admin.',
           yes: () => {
-            console.log(1)
-          }
+            }
         })
         return
       }
@@ -106,7 +105,6 @@ export default function SettingStorageConfiguration() {
         <List
           value={STORAGE_TYPES.find(t => t.id === formik.values.type) || STORAGE_TYPES[0]}
           onChange={(val: ListItemValue) => {
-            console.log('val', val)
             formik.setFieldValue('type', val.id as OrgStorageType)
           }}
         >
