@@ -70,7 +70,7 @@ const useHandleSubmit = (cb: () => void) => {
       }
     })
 
-    taskAdd(v)
+    taskAdd(v as unknown as Partial<Task>)
       .then(res => {
         const { data, status } = res.data
         if (status !== 200) return

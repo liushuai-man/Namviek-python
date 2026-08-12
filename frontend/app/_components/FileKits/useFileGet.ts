@@ -23,7 +23,7 @@ export default function useFileGet(fileIds: string[]) {
               id: f.id,
               uploading: false,
               name: f.name,
-              createdAt: f.createdAt || undefined,
+              createdAt: (f.createdAt as Date) || undefined,
               size: f.size || 0,
               ext: sliceName[sliceName.length - 1],
               mimeType: f.mimeType || '',

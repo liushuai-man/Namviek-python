@@ -78,7 +78,7 @@ function GridContentRow({ task }: { task: ExtendedTask }) {
               data={data}
               config={config}
               type={type}
-              value={dataStrValue} />
+              value={dataStrValue as string} />
 
             <GridBtnActions display={index === 0} rowId={task.id} />
           </CustomFieldInputProvider>

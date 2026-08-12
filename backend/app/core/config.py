@@ -1,6 +1,7 @@
+import json
 from functools import lru_cache
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,6 +17,25 @@ class Settings(BaseSettings):
         default_factory=lambda: ["http://localhost:3000"]
     )
 
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v: str | list[str]) -> list[str]:
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("["):
+                try:
+                    parsed = json.loads(v)
+                    if isinstance(parsed, list):
+                        return parsed
+                except json.JSONDecodeError:
+                    pass
+            if "," in v:
+                return [o.strip() for o in v.split(",") if o.strip()]
+            return [v]
+        return ["http://localhost:3000"]
+
     jwt_secret_key: SecretStr
     jwt_refresh_key: SecretStr
     access_token_expire_minutes: int = 30
@@ -30,5 +50,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    # Values required by Settings are supplied dynamically by the environment.
     return Settings()  # type: ignore[call-arg]

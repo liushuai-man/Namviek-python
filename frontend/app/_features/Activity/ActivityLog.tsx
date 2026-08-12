@@ -54,7 +54,7 @@ export default function ActivityLog({ activity }: IActivityLog) {
     case ActivityType.TASK_ASSIGNEE_ADDED: {
       try {
         const addedAssignees = members
-          .filter(({ id }) => (data as string[])?.includes(id))
+          .filter(({ id }) => (data as unknown as string[])?.includes(id))
           .map(({ name }) => name)
           .join(', ')
         content = `added assignees 👦 ${addedAssignees}`
@@ -102,10 +102,10 @@ export default function ActivityLog({ activity }: IActivityLog) {
 
   return (
     <div className="activity-item">
-      <MemberAvatar uid={createdBy} noName={true} />
+      <MemberAvatar uid={createdBy ?? null} noName={true} />
       <div className="text-xs text-gray-400 flex items-center justify-between">
         <span>
-          <MemberName uid={createdBy} />
+          <MemberName uid={createdBy ?? null} />
           {content}
         </span>
         <Time date={new Date(createdAt)} />

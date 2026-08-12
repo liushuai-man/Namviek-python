@@ -33,7 +33,7 @@ export const useProjectViewAdd = () => {
 
 
     return projectView
-      .add({ icon, onlyMe, name, type, projectId, data: filter })
+      .add({ icon, onlyMe, name, type, projectId, data: filter as Record<string, unknown> })
       .then(res => {
         const { data } = res.data
         addView(data)

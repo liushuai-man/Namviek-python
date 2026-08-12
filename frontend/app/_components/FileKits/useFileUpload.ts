@@ -7,7 +7,12 @@ import {
 } from '@/services/storage'
 import { FileOwnerType, FileStorage, FileType } from '@prisma/client'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
-import { IFileItem, IFileUploadItem, isImage, useFileKitContext } from './context'
+import {
+  IFileItem,
+  IFileUploadItem,
+  isImage,
+  useFileKitContext
+} from './context'
 import {
   confirmAlert,
   confirmWarning,
@@ -20,7 +25,8 @@ import { useSetDefaultCover } from './useSetDefaultCover'
 import { useGetParams } from '@/hooks/useGetParams'
 
 export default function useFileUpload() {
-  const { uploading, setUploading, onChange, setPreviewFiles, taskId } = useFileKitContext()
+  const { uploading, setUploading, onChange, setPreviewFiles, taskId } =
+    useFileKitContext()
   const { setDefaultCover } = useSetDefaultCover()
   const { orgId } = useGetParams()
   const { projectId, orgName } = useParams()
@@ -30,27 +36,27 @@ export default function useFileUpload() {
 
   const verifyFileUrl = async (url: string) => {
     try {
-      console.log('Verifying URL:', url);
-      const parsedUrl = new URL(url);
-      
+      console.log('Verifying URL:', url)
+      const parsedUrl = new URL(url)
+
       // Check if it's an S3 URL
       if (parsedUrl.hostname.includes('s3.amazonaws.com')) {
-        console.log('Detected S3 URL, returning as is');
-        return url;
-      }
-      
-      // Check if it's a Digital Ocean URL
-      if (parsedUrl.hostname.includes('digitaloceanspaces.com')) {
-        console.log('Detected Digital Ocean URL, removing search params');
-        parsedUrl.search = ''; // Remove query parameters
-        return parsedUrl.toString();
+        console.log('Detected S3 URL, returning as is')
+        return url
       }
 
-      console.log('Unknown URL type:', parsedUrl.hostname);
-      return url;
+      // Check if it's a Digital Ocean URL
+      if (parsedUrl.hostname.includes('digitaloceanspaces.com')) {
+        console.log('Detected Digital Ocean URL, removing search params')
+        parsedUrl.search = '' // Remove query parameters
+        return parsedUrl.toString()
+      }
+
+      console.log('Unknown URL type:', parsedUrl.hostname)
+      return url
     } catch (error) {
-      console.error('Error parsing URL:', error);
-      return url;
+      console.error('Error parsing URL:', error)
+      return url
     }
   }
 
@@ -89,7 +95,7 @@ export default function useFileUpload() {
         mimeType: file.type,
         owner: taskId,
         ownerType: FileOwnerType.TASK
-      })
+      } as Partial<FileStorage>)
 
       const fileData = result.data.data as FileStorage
 
@@ -102,7 +108,7 @@ export default function useFileUpload() {
         size: file.size,
         mimeType: file.type,
         keyName: name,
-        createdAt: fileData.createdAt || undefined,
+        createdAt: (fileData.createdAt as Date) || undefined,
         url
       }
     } catch (err) {
@@ -120,8 +126,10 @@ export default function useFileUpload() {
         return null
       }
 
-
-      if (error.response && error.response.data === 'STORAGE_CONFIG_NOT_FOUND') {
+      if (
+        error.response &&
+        error.response.data === 'STORAGE_CONFIG_NOT_FOUND'
+      ) {
         confirmWarning({
           title: 'Missing Storage Integration',
           message:
@@ -129,11 +137,9 @@ export default function useFileUpload() {
           yes: () => {
             console.log('1')
             push(`${orgName}/setting/about`)
-
           }
         })
         return null
-
       }
       if (error.response && error.response.data === 'MAX_SIZE_STORAGE') {
         // messageWarning(
@@ -200,15 +206,13 @@ export default function useFileUpload() {
         id: taskId,
         fileIds
       }).then(() => {
-
         // set default cover image
         for (let i = 0; i < fileItems.length; i++) {
-          const file = fileItems[i];
+          const file = fileItems[i]
           if (isImage(file.mimeType)) {
             setDefaultCover(file.url)
             break
           }
-
         }
       })
 
@@ -218,7 +222,7 @@ export default function useFileUpload() {
   const onFileHandler = async (files: FileList) => {
     console.log('onFileHandler', taskId)
     if (!taskId) {
-      messageError("Task id not found")
+      messageError('Task id not found')
       return
     }
     if (uploading) {
@@ -275,7 +279,6 @@ export default function useFileUpload() {
       )
 
       setUploading(false)
-
     })
   }
 

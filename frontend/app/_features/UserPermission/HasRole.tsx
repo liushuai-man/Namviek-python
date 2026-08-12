@@ -10,7 +10,7 @@ interface IHasRole {
 export default function HasRole({ children, projectRoles }: IHasRole) {
   const { projectRole } = useUserRole()
 
-  if (projectRole && projectRoles.includes(projectRole)) {
+  if (projectRole && projectRoles.includes(projectRole as MemberRole)) {
     return <>{children}</>
   }
 

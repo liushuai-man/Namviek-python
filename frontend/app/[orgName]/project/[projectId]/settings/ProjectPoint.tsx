@@ -30,7 +30,7 @@ const PointInput = ({
     if (e.key === 'Enter') {
       try {
         const target = e.target as HTMLInputElement
-        handleSumit({ ...initPoint, point: parseInt(target.value) })
+        handleSumit({ ...initPoint, point: parseInt(target.value).toString() })
       } catch (e) {
         console.log(`input point submit pressed with error`)
       }
@@ -77,7 +77,9 @@ export default function ProjectPoint() {
   useEffect(() => {
     // const cloned = JSON.parse(JSON.stringify(points)) as TaskPoint[]
     const cloned = [...points]
-    setTaskPointList(cloned.sort((a, b) => a.point - b.point))
+    setTaskPointList(
+      cloned.sort((a, b) => Number(a.point ?? 0) - Number(b.point ?? 0))
+    )
   }, [points])
 
   useEffect(() => {
@@ -116,7 +118,7 @@ export default function ProjectPoint() {
     messageSuccess('Point has been updated ! 🐸')
     updatePoint(oldData, newData)
     projectPointUpdate(newData).catch(err => {
-      console.log(`Update point failed: ${err}\nRollback to old value`)
+      console.error('Update point failed, rollback to old value:', err)
       messageError('Point has been failed to sync ! 😥')
       updatePoint(newData, oldData)
     })
@@ -124,12 +126,12 @@ export default function ProjectPoint() {
 
   const handleAddNewPoint = useCallback(
     async (v: number) => {
-      const point: TaskPoint = {
-        point: v,
+      const point = {
+        point: v.toString(),
         icon: null,
         projectId,
         id: `taskPoint-${Date.now()}`
-      }
+      } as unknown as TaskPoint
       addPoint(point)
       const { id: _, ...pointCreate } = point
       projectPointCreate(pointCreate)

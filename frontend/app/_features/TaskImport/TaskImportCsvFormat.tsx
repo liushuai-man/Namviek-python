@@ -239,10 +239,10 @@ export default function TaskImportCsvFormat({
                     taskPoint
                   } = t
                   const pStartDate = plannedStartDate
-                    ? format(new Date(plannedStartDate), 'PP')
+                    ? format(new Date(plannedStartDate as any), 'PP')
                     : null
                   const pEndDate = plannedDueDate
-                    ? format(new Date(plannedDueDate), 'PP')
+                    ? format(new Date(plannedDueDate as any), 'PP')
                     : null
 
                   return (
@@ -260,7 +260,7 @@ export default function TaskImportCsvFormat({
                           <DatePicker
                             value={
                               plannedStartDate
-                                ? new Date(plannedStartDate)
+                                ? new Date(plannedStartDate as any)
                                 : undefined
                             }
                           />
@@ -269,7 +269,7 @@ export default function TaskImportCsvFormat({
                           <DatePicker
                             value={
                               plannedDueDate
-                                ? new Date(plannedDueDate)
+                                ? new Date(plannedDueDate as any)
                                 : undefined
                             }
                           />

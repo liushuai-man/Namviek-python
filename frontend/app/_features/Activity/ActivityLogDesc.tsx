@@ -60,10 +60,10 @@ export default function ActivityLogDesc({ activity }: IActivityLog) {
   return (
     <div className="activity-item none">
       <div className="flex items-start gap-2">
-        <MemberAvatar uid={createdBy} noName={true} />
+        <MemberAvatar uid={createdBy ?? null} noName={true} />
         <div className="mt-0.5">
           <div className="text-xs text-gray-400 w-full">
-            <MemberName uid={createdBy} />
+            <MemberName uid={createdBy ?? null} />
             {title} -
             <Time date={new Date(createdAt)} />
           </div>

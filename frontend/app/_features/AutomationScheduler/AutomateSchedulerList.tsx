@@ -73,7 +73,7 @@ export default function AutomateSchedulerList({
           ) : null}
           {schedulers.map(scheduler => {
             const { id, cronId, trigger, createdAt } = scheduler
-            const { every, at } = trigger as ISchedulerTrigger
+            const { every, at } = trigger as unknown as ISchedulerTrigger
             let time = ''
             if (at?.hour) {
               time = `at ${at.hour}:${at.minute} ${at.period}`

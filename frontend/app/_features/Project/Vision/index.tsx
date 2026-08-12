@@ -22,7 +22,8 @@ const useVisionByDates = (visions: VisionField[]) => {
   visions.forEach(vision => {
     const d = vision.dueDate
     if (!d) return
-    const key = `${d.getDate()}-${d.getMonth()}`
+    const dateObj = new Date(d)
+    const key = `${dateObj.getDate()}-${dateObj.getMonth()}`
     if (!visionByDays[key]) {
       visionByDays[key] = []
     }
@@ -51,20 +52,21 @@ const useVisionProgress = ({ visions }: { visions: VisionField[] }) => {
 
   tasks.forEach(task => {
     const { visionId, done, taskStatusId, assigneeIds } = task
-    if (!visionId || !visionProgress[visionId]) return
+    const visionIdStr = visionId as string
+    if (!visionIdStr || !visionProgress[visionIdStr]) return
 
     taskTotal += 1
-    visionProgress[visionId].total += 1
+    visionProgress[visionIdStr].total += 1
 
     if (assigneeIds.length) {
       assigneeIds.forEach(assigneeId => {
-        visionProgress[visionId].assigneeIds.push(assigneeId)
+        visionProgress[visionIdStr].assigneeIds.push(assigneeId)
       })
     }
 
     // if (taskStatusId === statusDoneId) {
     if (isDoneStatus(taskStatusId || '')) {
-      visionProgress[visionId].done += 1
+      visionProgress[visionIdStr].done += 1
       taskDone += 1
     }
   })
@@ -114,7 +116,7 @@ export default function ProjectVision() {
               dueDate,
               startDate,
               progress
-            } = v
+            } = v as any
             return {
               id,
               projectId,
@@ -123,7 +125,7 @@ export default function ProjectVision() {
               progress,
               startDate: startDate ? new Date(startDate) : null,
               dueDate: dueDate ? new Date(dueDate) : null
-            } as VisionField
+            } as unknown as VisionField
           })
         )
       })

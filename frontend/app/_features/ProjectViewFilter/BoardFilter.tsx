@@ -27,7 +27,7 @@ export default function ProjectViewFilterByBoard({
         <h2 className="text-xl mb-3">Board</h2>
         <p className="text-sm text-gray-500 mb-6">{desc}</p>
 
-        <FilterForm type="BOARD" />
+        <FilterForm type={ProjectViewType.BOARD} />
         <ProjectViewForMe />
 
         <div className="text-right">

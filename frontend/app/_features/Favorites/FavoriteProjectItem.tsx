@@ -38,7 +38,7 @@ export default function FavoriteProjectItem({
       className={`nav-item group ${activeClass}`}>
       <div className="left">
         <HiChevronRight className="text-gray-400" />
-        <img src={icon} className="w-5 h-5" />
+        <img src={icon ?? undefined} className="w-5 h-5" />
         <span className="whitespace-nowrap">{name}</span>
       </div>
       <FavoriteRemove className="opacity-0 group-hover:opacity-100" id={id} />

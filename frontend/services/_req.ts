@@ -18,8 +18,12 @@ instance.interceptors.request.use(
     const authorization = getGoalieToken()
     const refreshToken = getGoalieRefreshToken()
 
-    config.headers.setAuthorization(authorization)
-    config.headers.set('refreshtoken', refreshToken)
+    if (authorization) {
+      config.headers['Authorization'] = `Bearer ${authorization}`
+    }
+    if (refreshToken) {
+      config.headers['refreshtoken'] = refreshToken
+    }
     return config
   },
   function(error) {

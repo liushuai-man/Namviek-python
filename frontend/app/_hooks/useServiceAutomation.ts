@@ -6,8 +6,10 @@ import {
 import {
   IAutomateThenProps,
   IAutomateWhenProps,
+  IAutomationItem,
   useAutomationStore
 } from '@/store/automation'
+import { TaskAutomation } from '@prisma/client'
 import { messageSuccess, randomId } from '@ui-components'
 
 export const useServiceAutomation = () => {
@@ -52,7 +54,7 @@ export const useServiceAutomation = () => {
       when,
       organizationId,
       projectId
-    })
+    } as unknown as IAutomationItem)
 
     automationAdd({
       then: {
@@ -68,7 +70,7 @@ export const useServiceAutomation = () => {
       },
       organizationId,
       projectId
-    })
+    } as unknown as Partial<TaskAutomation>)
       .then(res => {
         const { data } = res.data
 

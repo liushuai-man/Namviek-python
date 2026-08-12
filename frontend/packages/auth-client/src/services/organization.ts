@@ -3,16 +3,9 @@ import { httpGet, httpPost } from './_req';
 
 export const orgCreate = (data: Partial<Organization>) => {
   return httpPost('/api/org', data).then(res => {
-    const { status } = res;
-
-    if (status !== 200) {
-      return Promise.reject('CREATE_ORG_ERROR');
-    }
-
-    const { data } = res.data;
-    const organization = data as Organization
-
-    return Promise.resolve('SUCCESS');
+    const { data: resData } = res.data
+    const organization = resData as Organization
+    return Promise.resolve(organization)
   });
 };
 

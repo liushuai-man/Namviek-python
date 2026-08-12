@@ -37,8 +37,8 @@ export default function BoardItem({ data }: { data: ExtendedTask }) {
   // const { getSp } = useUrl()
   // const link = `${orgID}/project/${projectId}?mode=${getSp('mode')}&taskId=${data.id}`
   const progress = useMemo(() => {
-    const done = data.checklistDone || 0
-    const todo = data.checklistTodos || 0
+    const done = (data.checklistDone as number) || 0
+    const todo = (data.checklistTodos as number) || 0
     const percent = (done / (todo + done)) * 100
     return isNaN(percent) ? 0 : Math.round(percent)
   }, [JSON.stringify(data)])

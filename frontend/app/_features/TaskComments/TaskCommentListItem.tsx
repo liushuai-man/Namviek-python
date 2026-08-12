@@ -37,7 +37,7 @@ export default function TaskCommentListItem(comment: Comment) {
   return (
     <div className="mt-4 group relative">
       <TaskComment
-        userId={createdBy}
+        userId={createdBy ?? ''}
         initValue={content}
         readOnly={!editable}
         onValueSubmit={handleValueSubmit}

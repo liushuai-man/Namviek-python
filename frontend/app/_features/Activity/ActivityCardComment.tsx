@@ -11,11 +11,7 @@ interface IActivityCardCommentProps {
 export default function ActivityCardComment({
   activity
 }: IActivityCardCommentProps) {
-  const {
-    createdBy,
-    data,
-    createdAt,
-  } = activity as Activity & {
+  const { createdBy, data, createdAt } = activity as Activity & {
     data: ActivityCommentData
   }
   const { content } = data
@@ -53,10 +49,10 @@ export default function ActivityCardComment({
   return (
     <div className="activity-item none">
       <div className="flex items-start gap-2">
-        <MemberAvatar uid={createdBy} noName={true} />
+        <MemberAvatar uid={createdBy ?? null} noName={true} />
         <div className="mt-0.5">
           <p className="text-sm text-gray-400">
-            <MemberName uid={createdBy} />
+            <MemberName uid={createdBy ?? null} />
             wrote a comment 👄 -
             <Time date={new Date(createdAt)} />
           </p>
@@ -67,5 +63,4 @@ export default function ActivityCardComment({
         dangerouslySetInnerHTML={{ __html: content || '' }}></p>
     </div>
   )
-
 }

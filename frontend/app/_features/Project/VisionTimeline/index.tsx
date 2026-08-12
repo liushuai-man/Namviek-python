@@ -1,7 +1,7 @@
 import './style.css'
 import { useVisionContext } from '../Vision/context'
 
-import { Timeline } from '@ui-components'
+import { Timeline, ITimelineItem } from '@ui-components'
 import VisionCreate from '../Vision/VisionCreate'
 import TimelineItem from './TimelineItem'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -39,8 +39,9 @@ export default function VisionTimeline({ visible }: { visible: boolean }) {
 
   return (
     <div
-      className={`vision-timeline-container w-full px-3 pt-3 relative ${visible ? '' : 'hidden'
-        }`}>
+      className={`vision-timeline-container w-full px-3 pt-3 relative ${
+        visible ? '' : 'hidden'
+      }`}>
       {/* <Loading.Absolute enabled={loading} border /> */}
       <div className="z-20 relative mb-3 flex items-center gap-2">
         <div className="w-[120px]">
@@ -60,14 +61,16 @@ export default function VisionTimeline({ visible }: { visible: boolean }) {
             dueDate: end
           })
         }}
-        items={visions.map(vision => {
-          return {
-            id: vision.id || '',
-            start: vision.startDate || new Date(),
-            end: vision.dueDate || new Date(),
-            title: vision.name
-          }
-        })}>
+        items={
+          visions.map(vision => {
+            return {
+              id: vision.id || '',
+              start: vision.startDate || new Date(),
+              end: vision.dueDate || new Date(),
+              title: vision.name
+            }
+          }) as unknown as ITimelineItem[]
+        }>
         {data => {
           return (
             <TimelineItemDroppable id={data.id}>

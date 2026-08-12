@@ -24,11 +24,11 @@ export default function CustomFieldDisplay({ children, createBtn = false, sortab
   const generateCustomFieldCell = (index: number, cf: Field) => {
     const { width } = cf
     if (!sortable)
-      return <CustomFieldStaticCell key={cf.id} width={width}>
+      return <CustomFieldStaticCell key={cf.id} width={width ?? 0}>
         {children(index, cf)}
       </CustomFieldStaticCell>
 
-    return <CustomFieldSortableCell width={width} index={index}>
+    return <CustomFieldSortableCell width={width ?? 0} index={index}>
       {children(index, cf)}
     </CustomFieldSortableCell>
   }

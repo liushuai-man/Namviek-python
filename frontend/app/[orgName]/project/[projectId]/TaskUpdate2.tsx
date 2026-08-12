@@ -164,17 +164,17 @@ export const TaskUpdate2 = () => {
           ? new Date(currentTask.dueDate)
           : defaultFormikValues.dueDate,
         plannedDueDate: currentTask.plannedDueDate
-          ? new Date(currentTask.plannedDueDate)
+          ? new Date(currentTask.plannedDueDate as any)
           : defaultFormikValues.plannedDueDate,
         planedStartDate: currentTask.plannedStartDate
-          ? new Date(currentTask.plannedStartDate)
+          ? new Date(currentTask.plannedStartDate as any)
           : defaultFormikValues.planedStartDate,
         assigneeIds: currentTask.assigneeIds
           ? currentTask.assigneeIds
           : defaultFormikValues.assigneeIds,
         desc: currentTask.desc ? currentTask.desc : defaultFormikValues.desc,
         progress: currentTask.progress
-          ? currentTask.progress
+          ? currentTask.progress as number
           : defaultFormikValues.progress
       })
     }

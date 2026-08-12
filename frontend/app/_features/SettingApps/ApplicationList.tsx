@@ -27,13 +27,14 @@ const ApplicationCard = ({ application }: { application: Application }) => {
   const { deleteApplication } = useApplicationStore()
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         messageSuccess('Copied to clipboard')
         // Optionally, you can show a toast or notification here
         console.log('Copied to clipboard')
       })
-      .catch((err) => {
+      .catch(err => {
         console.error('Failed to copy: ', err)
       })
   }
@@ -55,32 +56,36 @@ const ApplicationCard = ({ application }: { application: Application }) => {
         <div>
           <h3 className="text-xl font-medium">{application.name}</h3>
           <div className="mt-2 text-sm space-y-2">
-            <div className='flex items-center gap-3'>
+            <div className="flex items-center gap-3">
               <span className="text-gray-500 shrink-0">Client ID: </span>
               <span className="">{application.clientId}</span>
               <Button
-                className='group-hover:opacity-100 opacity-0 transition-all'
+                className="group-hover:opacity-100 opacity-0 transition-all"
                 size="sm"
-                onClick={() => copyToClipboard(application.clientId)}
+                onClick={() => copyToClipboard(application.clientId ?? '')}
                 leadingIcon={<FiCopy size={16} />}
               />
             </div>
-            <div className='flex items-center gap-3'>
+            <div className="flex items-center gap-3">
               <span className="text-gray-500 shrink-0">Client Secret: </span>
               <div className="flex items-center gap-2">
                 <span className="">
                   {showSecret ? application.clientSecret : '••••••••••••••••'}
                 </span>
                 <Button
-                  className='group-hover:opacity-100 opacity-0 transition-all'
+                  className="group-hover:opacity-100 opacity-0 transition-all"
                   size="sm"
                   onClick={() => setShowSecret(!showSecret)}
-                  leadingIcon={showSecret ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  leadingIcon={
+                    showSecret ? <FiEyeOff size={16} /> : <FiEye size={16} />
+                  }
                 />
                 <Button
-                  className='group-hover:opacity-100 opacity-0 transition-all'
+                  className="group-hover:opacity-100 opacity-0 transition-all"
                   size="sm"
-                  onClick={() => copyToClipboard(application.clientSecret)}
+                  onClick={() =>
+                    copyToClipboard(application.clientSecret ?? '')
+                  }
                   leadingIcon={<FiCopy size={16} />}
                 />
               </div>
@@ -95,4 +100,4 @@ const ApplicationCard = ({ application }: { application: Application }) => {
       </div>
     </Card>
   )
-} 
+}

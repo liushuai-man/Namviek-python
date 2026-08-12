@@ -1,4 +1,4 @@
-﻿import { reportService } from '@/services/report'
+import { reportService } from '@/services/report'
 import { useProjectStore } from '@/store/project'
 import { Stats } from '@prisma/client'
 import { Loading } from '@ui-components'
@@ -73,7 +73,7 @@ export default function ReportByProjectItem({
           const dailyItemData = dailyItem.data as Record<string, unknown>
           const unDoneTotal = dailyItemData.unDoneTotal as number
 
-          const key = dailyItem.date
+          const key = Number(dailyItem.date)
           const t = totalData.get(key) || 0
           totalData.set(key, t + unDoneTotal)
         }

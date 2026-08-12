@@ -21,8 +21,8 @@ import TaskTitle from './TaskTitle'
 export default function ListRow({ task }: { task: ExtendedTask }) {
   const isRandomId = task.id.includes('TASK-ID-RAND')
   const progress = useMemo(() => {
-    const done = task.checklistDone || 0
-    const todo = task.checklistTodos || 0
+    const done = (task.checklistDone as number) || 0
+    const todo = (task.checklistTodos as number) || 0
     const percent = (done / (todo + done)) * 100
     return isNaN(percent) ? 0 : Math.round(percent)
   }, [JSON.stringify(task)])
@@ -79,10 +79,9 @@ export default function ListRow({ task }: { task: ExtendedTask }) {
           <TaskPriorityCell taskId={task.id} value={task.priority} />
         </ListCell>
         <ListCell className="hidden sm:w-[50px] sm:block">
-          <TaskPoint taskId={task.id} value={task.taskPoint} />
+          <TaskPoint taskId={task.id} value={task.taskPoint as number | null} />
         </ListCell>
-        <ListCell
-          className={`ml-6 sm:ml-0 sm:w-[110px]`}>
+        <ListCell className={`ml-6 sm:ml-0 sm:w-[110px]`}>
           <TaskDate
             toNow={true}
             taskId={task.id}

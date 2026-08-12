@@ -33,7 +33,7 @@ export default function FavoritePageItem({
       <div className="left">
         <HiChevronRight className="text-gray-400" />
         <div className="relative">
-          <img src={icon} className="w-4 h-4 absolute -top-1.5 -right-1.5" />
+          <img src={icon ?? undefined} className="w-4 h-4 absolute -top-1.5 -right-1.5" />
           <HiOutlineGlobeAlt className="w-5 h-5 text-gray-400" />
         </div>
         <span className="whitespace-nowrap">{name}</span>

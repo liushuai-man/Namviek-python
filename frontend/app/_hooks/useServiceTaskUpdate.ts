@@ -32,7 +32,10 @@ export const useServiceTaskUpdate = () => {
       data.done = data.taskStatusId === statusDoneId
     }
 
-    refactorTaskFieldByAutomationConfig('task', data as ITaskDefaultValues)
+    refactorTaskFieldByAutomationConfig(
+      'task',
+      data as unknown as ITaskDefaultValues
+    )
 
     return data
   }
@@ -93,7 +96,7 @@ export const useServiceTaskUpdate = () => {
 
       refactorTaskFieldByAutomationConfig(
         'task',
-        taskData as ITaskDefaultValues
+        taskData as unknown as ITaskDefaultValues
       )
 
       updateTask({

@@ -43,7 +43,7 @@ export default function ChecklistList({ taskId }: { taskId: string }) {
         <Form.Checkbox checked={done || false} onChange={checked => {
           onCheck(checked, idx, id)
         }} className="shrink-0" />
-        <ChecklistInput id={id} value={title} taskId={taskId} />
+        <ChecklistInput id={id} value={title ?? ''} taskId={taskId} />
         {/* {id} */}
         <HiOutlineX onClick={() => {
           onDelete(id)

@@ -54,7 +54,7 @@ export default function VisionListInDate({ date }: { date: Date }) {
         const { id, name } = vision
         const progress = getVisionProgress(id) || 0
         return (
-          <VisionItemInDate key={id} id={id} name={name} progress={progress} />
+          <VisionItemInDate key={id} id={id} name={name ?? ''} progress={progress} />
         )
       })}
     </div>

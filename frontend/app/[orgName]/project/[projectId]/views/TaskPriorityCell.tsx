@@ -22,7 +22,7 @@ export default function TaskPriorityCell({
   return (
     <PrioritySelect
       className={`task-priority ${className}`}
-      value={value || 'LOW'}
+      value={(value || 'LOW') as any}
       onChange={onUpdate}
     />
   )

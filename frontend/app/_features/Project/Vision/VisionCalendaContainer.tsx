@@ -24,7 +24,7 @@ export default function VisionCalendarContainer() {
 
     if (!vision || !vision.dueDate) return
 
-    if (isDateEqual(vision.dueDate, date)) {
+    if (isDateEqual(new Date(vision.dueDate), date)) {
       return
     }
 

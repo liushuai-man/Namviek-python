@@ -39,11 +39,11 @@ export default function useServiceFavoriteUpdate() {
       icon,
       link,
       type,
-      createdAt: null,
+      createdAt: undefined,
       updatedAt: null,
-      createdBy: null,
-      updatedBy: null
-    })
+      createdBy: undefined,
+      updatedBy: undefined
+    } as unknown as Favorites)
 
     favPost({
       orgId,

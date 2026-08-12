@@ -1,7 +1,8 @@
 from datetime import datetime
 from enum import StrEnum
+from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class ProjectViewType(StrEnum):
@@ -28,9 +29,21 @@ class ProjectCreateRequest(BaseModel):
     desc: str = ""
     icon: str | None = None
     color: str | None = None
-    organizationId: str
+    organizationId: str = Field(alias="orgId")
     views: list[str] = Field(default_factory=lambda: ["BOARD"])
     members: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_org_id(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "orgId" not in data and "organizationId" in data:
+                data["orgId"] = data["organizationId"]
+            elif "organizationId" not in data and "orgId" in data:
+                data["organizationId"] = data["orgId"]
+        return data
+
+    model_config = {"populate_by_name": True}
 
 
 class ProjectUpdateRequest(BaseModel):
@@ -50,13 +63,15 @@ class ProjectResponse(BaseModel):
     icon: str | None = None
     color: str | None = None
     cover: str | None = None
-    organizationId: str
+    orgId: str = Field(alias="organizationId")
     createdBy: str
     createdAt: datetime
     updatedAt: datetime | None = None
     archivedAt: datetime | None = None
     archivedBy: str | None = None
     allMemberVisible: bool = False
+
+    model_config = {"populate_by_name": True}
 
 
 # ── Project Status ───────────────────────────────────────────────────────
@@ -93,11 +108,20 @@ class ProjectStatusResponse(BaseModel):
 
 class ProjectViewCreateRequest(BaseModel):
     name: str = Field(min_length=1, max_length=50)
-    type: ProjectViewType
+    type: str
     icon: str | None = None
     order: int = 0
     data: dict[str, object] = Field(default_factory=dict)
+    config: dict[str, object] = Field(default_factory=dict)
     projectId: str
+
+    @model_validator(mode="before")
+    @classmethod
+    def merge_data_config(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "config" in data and "data" not in data:
+                data["data"] = data["config"]
+        return data
 
 
 class ProjectViewUpdateRequest(BaseModel):
@@ -115,11 +139,20 @@ class ProjectViewResponse(BaseModel):
     type: str
     icon: str | None = None
     order: int
-    data: dict[str, object]
+    data: dict[str, object] = Field(default_factory=dict)
+    config: dict[str, object] = Field(default_factory=dict)
     projectId: str
     createdAt: datetime
     updatedAt: datetime | None = None
     pinned: bool = False
+
+    @model_validator(mode="before")
+    @classmethod
+    def ensure_config(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "config" not in data and "data" in data:
+                data["config"] = data["data"]
+        return data
 
 
 # ── Project Point ────────────────────────────────────────────────────────

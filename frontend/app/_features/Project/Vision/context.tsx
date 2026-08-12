@@ -147,7 +147,7 @@ export const useVisionContext = () => {
       organizationId: data.organizationId || ''
     }
 
-    setVisions(prev => [...prev, { ...{ id: visionId }, ...newData }])
+    setVisions(prev => [...prev, { ...{ id: visionId }, ...newData } as VisionField])
 
     visionAdd(newData).then(res => {
       const { data } = res.data

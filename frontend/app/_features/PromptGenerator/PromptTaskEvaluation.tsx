@@ -67,10 +67,10 @@ export default function PromptTaskEvaluation() {
           const { title, plannedStartDate, plannedDueDate } = task
 
           const startDate = plannedStartDate
-            ? format(new Date(plannedStartDate), 'dd/MM/yyyy')
+            ? format(new Date(plannedStartDate as any), 'dd/MM/yyyy')
             : 'NG'
           const endDate = plannedDueDate
-            ? format(new Date(plannedDueDate), 'dd/MM/yyyy')
+            ? format(new Date(plannedDueDate as any), 'dd/MM/yyyy')
             : 'NG'
 
           return (

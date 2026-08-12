@@ -104,7 +104,7 @@ export default function VisionListTask() {
             {taskWithoutVisions.map((t, index) => {
               return (
                 <VisionTaskItemDraggable
-                  visionId={t.visionId || ''}
+                  visionId={(t.visionId || '') as string}
                   index={index}
                   key={t.id}
                   title={t.title}
