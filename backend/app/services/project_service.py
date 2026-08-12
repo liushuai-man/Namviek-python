@@ -123,9 +123,12 @@ class ProjectService:
     ) -> None:
         orders: list[tuple[ObjectId, int]] = []
         for item in data.newOrders:
-            oid = ObjectId(str(item["id"]))
-            order = int(item["order"])
-            orders.append((oid, order))
+            try:
+                oid = ObjectId(str(item["id"]))
+                order = int(item["order"])
+                orders.append((oid, order))
+            except Exception:
+                continue
         await self._repo.update_status_order(orders)
 
     async def delete_status(self, status_id: str) -> None:

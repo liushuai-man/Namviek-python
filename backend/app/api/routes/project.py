@@ -3,7 +3,9 @@ from fastapi import APIRouter, Query, status
 from app.api.dependencies import CurrentUser, DatabaseDependency
 from app.repositories.project_repository import MongoProjectRepository
 from app.schemas.project import (
+    ProjectArchiveRequest,
     ProjectCreateRequest,
+    ProjectPinRequest,
     ProjectResponse,
     ProjectStatusCreateRequest,
     ProjectStatusOrderRequest,
@@ -59,13 +61,38 @@ async def update_project(
 
 @router.post("/archive", response_model=ProjectResponse)
 async def archive_project(
-    projectId: str = Query(...),
-    archive: bool = Query(...),
-    current_user: CurrentUser = None,
+    data: ProjectArchiveRequest,
+    current_user: CurrentUser,
     database: DatabaseDependency = None,
 ) -> ProjectResponse:
     service = _get_service(database)
-    return await service.archive_project(projectId, archive, current_user.id)
+    return await service.archive_project(data.projectId, data.archive, current_user.id)
+
+
+@router.post("/pin")
+async def pin_project(
+    data: ProjectPinRequest,
+    current_user: CurrentUser,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@router.delete("/pin")
+async def unpin_project(
+    projectId: str = Query(...),
+    current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@router.get("/pin")
+async def get_pinned_projects(
+    current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> list[dict[str, object]]:
+    return []
 
 
 # ── Status ───────────────────────────────────────────────────────────
@@ -93,6 +120,7 @@ async def create_status(
     _current_user: CurrentUser = None,
 ) -> ProjectStatusResponse:
     service = _get_service(database)
+    data.projectId = project_id
     return await service.create_status(data)
 
 

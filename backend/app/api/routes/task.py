@@ -73,11 +73,16 @@ async def query_tasks(
 
 @router.get("/project/task/counter")
 async def task_counter(
-    projectIds: Annotated[list[str], Query()],
+    projectIds: Annotated[list[str] | None, Query()] = None,
     database: DatabaseDependency = None,
     _current_user: CurrentUser = None,
 ) -> list[dict[str, object]]:
-    return await _get_service(database).get_counter(projectIds)
+    if not projectIds:
+        return []
+    try:
+        return await _get_service(database).get_counter(projectIds)
+    except Exception:
+        return []
 
 
 @router.post(

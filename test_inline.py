@@ -28,7 +28,7 @@ client = httpx.Client(timeout=30)
 passed = 0
 failed = 0
 
-def test(name: str, method: str, path: str, expected_status: int, **kwargs):
+def test(name, method, path, expected_status, **kwargs):
     global passed, failed
     url = f"{BASE}{path}"
     try:
@@ -49,7 +49,7 @@ def test(name: str, method: str, path: str, expected_status: int, **kwargs):
         else:
             print(f"  FAIL  {name} => expected {expected_status}, got {r.status_code}")
             if r.text:
-                print(f"        Response: {r.text[:200]}")
+                print(f"        Response: {r.text[:300]}")
             failed += 1
             return r
     except Exception as e:
@@ -78,14 +78,11 @@ try:
     })
 
     token = ""
-    refresh_token = ""
     if r:
         token = r.headers.get("Authorization", "")
-        refresh_token = r.headers.get("RefreshToken", "")
         login_data = r.json()
         user_id = login_data.get("data", {}).get("id", "")
         print(f"        User ID: {user_id}")
-        print(f"        Token: {token[:50]}...")
 
     headers = {"Authorization": f"Bearer {token}"} if token else {}
 
@@ -99,7 +96,6 @@ try:
     if r:
         org_data = r.json()
         org_id = org_data.get("id", "")
-        print(f"        Org ID: {org_id}")
 
     # Get Organizations
     test("Get Orgs", "GET", "/api/org", 200, headers=headers)
@@ -116,7 +112,6 @@ try:
     if r:
         project_data = r.json()
         project_id = project_data.get("id", "")
-        print(f"        Project ID: {project_id}")
 
     # Get Projects
     test("Get Projects", "GET", f"/api/project?orgId={org_id}", 200, headers=headers)
@@ -135,18 +130,17 @@ try:
     if r:
         task_data = r.json()
         task_id = task_data.get("id", "")
-        print(f"        Task ID: {task_id}")
 
     # Get Tasks
     test("Get Tasks", "GET", f"/api/project/task?projectId={project_id}", 200, headers=headers)
 
     # Get Tasks by Query
-    test("Query Tasks", "GET", f"/api/project/task/query", 200, headers=headers,
+    test("Query Tasks", "GET", "/api/project/task/query", 200, headers=headers,
          params={"projectId": project_id})
 
     # Create Checklist
     if task_id:
-        test("Create Checklist", "POST", "/api/checklist", 201, json={
+        test("Create Checklist", "POST", "/api/project/task/checklist", 201, json={
             "taskId": task_id,
             "title": "Test checklist item",
             "order": 0,
@@ -154,7 +148,7 @@ try:
 
     # Get Checklists
     if task_id:
-        test("Get Checklists", "GET", f"/api/checklist?taskId={task_id}", 200, headers=headers)
+        test("Get Checklists", "GET", f"/api/project/task/checklist/{task_id}", 200, headers=headers)
 
     # Create Comment
     if task_id:
@@ -167,22 +161,22 @@ try:
     if task_id:
         test("Get Comments", "GET", f"/api/comment?taskId={task_id}", 200, headers=headers)
 
-    # Get Activities
-    test("Get Activities", "GET", "/api/activity", 200, headers=headers)
+    # Get Activities (with objectId)
+    test("Get Activities", "GET", "/api/activity", 200, headers=headers,
+         params={"objectId": task_id})
 
-    # Create Status
-    r = test("Create Status", "POST", "/api/project-status", 201, json={
+    # Create Status (path param)
+    test("Create Status", "POST", f"/api/project/status/{project_id}", 201, json={
         "name": "Todo",
         "color": "#FF0000",
         "order": 0,
-        "projectId": project_id,
     }, headers=headers)
 
     # Get Statuses
-    test("Get Statuses", "GET", f"/api/project-status?projectId={project_id}", 200, headers=headers)
+    test("Get Statuses", "GET", f"/api/project/status/{project_id}", 200, headers=headers)
 
     # Create Task Point
-    r = test("Create Point", "POST", "/api/project-point", 201, json={
+    test("Create Point", "POST", "/api/project/point", 201, json={
         "name": "Sprint 1",
         "value": "SP1",
         "order": 0,
@@ -190,20 +184,20 @@ try:
     }, headers=headers)
 
     # Get Task Points
-    test("Get Points", "GET", f"/api/project-point?projectId={project_id}", 200, headers=headers)
+    test("Get Points", "GET", f"/api/project/point/{project_id}", 200, headers=headers)
 
     # Create Tag
-    test("Create Tag", "POST", "/api/project-tag", 201, json={
+    test("Create Tag", "POST", "/api/project/tag", 201, json={
         "name": "Urgent",
         "color": "#FF0000",
         "projectId": project_id,
     }, headers=headers)
 
     # Get Tags
-    test("Get Tags", "GET", f"/api/project-tag?projectId={project_id}", 200, headers=headers)
+    test("Get Tags", "GET", f"/api/project/tag/{project_id}", 200, headers=headers)
 
     # Create Field
-    test("Create Field", "POST", "/api/field", 201, json={
+    test("Create Field", "POST", "/api/fields", 201, json={
         "name": "Priority",
         "type": "SELECT",
         "projectId": project_id,
@@ -211,7 +205,7 @@ try:
     }, headers=headers)
 
     # Get Fields
-    test("Get Fields", "GET", f"/api/field?projectId={project_id}", 200, headers=headers)
+    test("Get Fields", "GET", f"/api/fields/{project_id}", 200, headers=headers)
 
     # Pin Project
     test("Pin Project", "POST", "/api/project/pin", 200, json={
@@ -229,6 +223,41 @@ try:
 
     # Get Me
     test("Get Me", "GET", "/api/auth/me", 200, headers=headers)
+
+    # Grid query
+    test("Grid Query", "POST", "/api/project/grid/query", 200, json={}, headers=headers)
+
+    # Reorder
+    test("Task Reorder", "POST", "/api/task/reorder", 200, json={
+        "updatedOrder": [[task_id, 0]],
+        "projectId": project_id,
+    }, headers=headers)
+
+    # Event task-reorder
+    test("Event Task Reorder", "POST", "/api/event/task-reorder", 200, json={
+        "updatedOrder": [[task_id, 0]],
+        "projectId": project_id,
+    }, headers=headers)
+
+    # Status update order
+    test("Status Update Order", "PUT", "/api/project/status/order", 200, json={
+        "newOrders": [{"id": "", "order": 0}],
+    }, headers=headers)
+
+    # Custom field query
+    test("Custom Field Query", "POST", "/api/project/task/custom-field/query", 200, json={}, headers=headers)
+
+    # Export
+    test("Export Tasks", "GET", "/api/project/task/export", 200, headers=headers,
+         params={"projectId": project_id})
+
+    # Counter
+    test("Task Counter", "GET", "/api/project/task/counter", 200, headers=headers,
+         params={"projectIds": [project_id]})
+
+    # Make cover
+    test("Make Cover", "POST", "/api/project/task/make-cover", 200, headers=headers,
+         params={"taskId": task_id, "url": "https://example.com/cover.png", "projectId": project_id})
 
     print(f"\n{'='*50}")
     print(f"Results: {passed} passed, {failed} failed")

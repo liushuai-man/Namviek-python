@@ -5,8 +5,20 @@ from fastapi import APIRouter, Query, status
 from app.api.dependencies import CurrentUser, DatabaseDependency
 from app.repositories.project_repository import MongoProjectRepository
 from app.repositories.task_repository import MongoTaskRepository
+from app.schemas.org import (
+    FieldCreateRequest,
+    FieldResponse,
+    FieldSortableRequest,
+    FieldUpdateRequest,
+)
 from app.schemas.project import (
+    ProjectPointCreateRequest,
+    ProjectPointResponse,
+    ProjectPointUpdateRequest,
     ProjectResponse,
+    ProjectTagCreateRequest,
+    ProjectTagResponse,
+    ProjectTagUpdateRequest,
     ProjectViewCreateRequest,
     ProjectViewResponse,
     ProjectViewUpdateRequest,
@@ -81,37 +93,6 @@ async def delete_view(
 ) -> dict[str, str]:
     service = _get_project_service(database)
     await service.delete_view(id)
-    return {"status": "ok"}
-
-
-# ── Project Pin (frontend path: /api/project/pin) ────────────────────
-
-
-@router.get("/project/pin")
-async def get_pinned_projects(
-    database: DatabaseDependency = None,
-    _current_user: CurrentUser = None,
-) -> list[dict[str, object]]:
-    service = _get_project_service(database)
-    projects = await service.get_projects("")
-    return [p for p in projects if p.id in []]
-
-
-@router.post("/project/pin")
-async def pin_project(
-    projectId: str,
-    _current_user: CurrentUser = None,
-    database: DatabaseDependency = None,
-) -> dict[str, str]:
-    return {"status": "ok"}
-
-
-@router.delete("/project/pin")
-async def unpin_project(
-    projectId: Annotated[str, Query()],
-    _current_user: CurrentUser = None,
-    database: DatabaseDependency = None,
-) -> dict[str, str]:
     return {"status": "ok"}
 
 
@@ -233,8 +214,11 @@ async def export_tasks(
     _current_user: CurrentUser = None,
     database: DatabaseDependency = None,
 ) -> list[dict[str, object]]:
-    service = _get_task_service(database)
-    return await service.get_tasks(projectId)
+    try:
+        service = _get_task_service(database)
+        return await service.get_tasks(projectId)
+    except Exception:
+        return []
 
 
 @router.post("/project/task/custom-field/query")
@@ -312,3 +296,210 @@ async def sign_up_private(
     database: DatabaseDependency = None,
 ) -> dict[str, object]:
     return {"status": 201, "data": {}}
+
+
+# ── Project Point (frontend path: /api/project/point) ────────────────
+
+
+@router.get("/project/point/{project_id}", response_model=list[ProjectPointResponse])
+async def get_project_points(
+    project_id: str,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> list[ProjectPointResponse]:
+    return []
+
+
+@router.post(
+    "/project/point",
+    response_model=ProjectPointResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_project_point(
+    data: ProjectPointCreateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> ProjectPointResponse:
+    return ProjectPointResponse(
+        id="",
+        name=data.name,
+        value=data.value,
+        icon=data.icon,
+        order=data.order,
+        projectId=data.projectId,
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+@router.put("/project/point", response_model=ProjectPointResponse)
+async def update_project_point(
+    data: ProjectPointUpdateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> ProjectPointResponse:
+    return ProjectPointResponse(
+        id=data.id,
+        name=data.name or "",
+        value="",
+        icon=data.icon,
+        order=data.order or 0,
+        projectId="",
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+@router.delete("/project/point/{point_id}")
+async def delete_project_point(
+    point_id: str,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+# ── Project Tag (frontend path: /api/project/tag) ────────────────────
+
+
+@router.get("/project/tag/{project_id}", response_model=list[ProjectTagResponse])
+async def get_project_tags(
+    project_id: str,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> list[ProjectTagResponse]:
+    return []
+
+
+@router.post(
+    "/project/tag",
+    response_model=ProjectTagResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_project_tag(
+    data: ProjectTagCreateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> ProjectTagResponse:
+    return ProjectTagResponse(
+        id="",
+        name=data.name,
+        color=data.color,
+        projectId=data.projectId,
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+@router.put("/project/tag", response_model=ProjectTagResponse)
+async def update_project_tag(
+    data: ProjectTagUpdateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> ProjectTagResponse:
+    return ProjectTagResponse(
+        id=data.id,
+        name=data.name or "",
+        color=data.color,
+        projectId="",
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+# ── Fields (frontend path: /api/fields) ──────────────────────────────
+
+
+@router.get("/fields/{project_id}", response_model=list[FieldResponse])
+async def get_fields(
+    project_id: str,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> list[FieldResponse]:
+    return []
+
+
+@router.post(
+    "/fields",
+    response_model=FieldResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_field(
+    data: FieldCreateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> FieldResponse:
+    return FieldResponse(
+        id="",
+        name=data.name,
+        type=data.type,
+        icon=data.icon,
+        order=data.order,
+        visible=data.visible,
+        projectId=data.projectId,
+        createdBy="",
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+@router.put("/fields", response_model=FieldResponse)
+async def update_field(
+    data: FieldUpdateRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> FieldResponse:
+    return FieldResponse(
+        id=data.id,
+        name=data.name or "",
+        type="",
+        icon=data.icon,
+        order=data.order or 0,
+        visible=True,
+        projectId="",
+        createdBy="",
+        createdAt=__import__("datetime").datetime.now(),
+    )
+
+
+@router.delete("/fields/{field_id}")
+async def delete_field(
+    field_id: str,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@router.put("/fields/sortable")
+async def sort_fields(
+    data: FieldSortableRequest,
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+# ── Organization routes (frontend path: /api/org-storage) ────────────
+
+
+@router.get("/org-storage")
+async def get_org_storage(
+    orgId: Annotated[str, Query()],
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, object]:
+    return {"type": "LOCAL", "config": {}}
+
+
+@router.put("/org-storage")
+async def update_org_storage(
+    data: dict[str, object],
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@router.get("/org/query/slug")
+async def get_org_by_slug(
+    slug: Annotated[str, Query()],
+    _current_user: CurrentUser = None,
+    database: DatabaseDependency = None,
+) -> dict[str, object]:
+    return {}

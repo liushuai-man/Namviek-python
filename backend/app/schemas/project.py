@@ -216,3 +216,28 @@ class MemberResponse(BaseModel):
     role: str
     createdAt: datetime
     updatedAt: datetime | None = None
+
+
+# ── Archive / Pin / Unpin ──────────────────────────────────────────────
+
+class ProjectArchiveRequest(BaseModel):
+    projectId: str
+    archive: bool = True
+
+
+class ProjectPinRequest(BaseModel):
+    projectId: str
+
+
+# ── Project Tag Create ──────────────────────────────────────────────────
+
+class ProjectTagCreateRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=50)
+    color: str | None = None
+    projectId: str
+
+
+class ProjectTagUpdateRequest(BaseModel):
+    id: str
+    name: str | None = None
+    color: str | None = None
