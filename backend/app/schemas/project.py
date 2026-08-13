@@ -80,7 +80,7 @@ class ProjectStatusCreateRequest(BaseModel):
     name: str = Field(min_length=1, max_length=50)
     color: str | None = None
     order: int = 0
-    projectId: str
+    projectId: str = ""
 
 
 class ProjectStatusUpdateRequest(BaseModel):

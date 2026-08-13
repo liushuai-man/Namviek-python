@@ -216,8 +216,10 @@ async def export_tasks(
 ) -> list[dict[str, object]]:
     try:
         service = _get_task_service(database)
-        return await service.get_tasks(projectId)
-    except Exception:
+        tasks = await service.get_tasks(projectId)
+        return [t.model_dump() for t in tasks]
+    except Exception as e:
+        print(f"Export error: {e}")
         return []
 
 
